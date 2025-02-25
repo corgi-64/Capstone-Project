@@ -16,6 +16,7 @@ body {
   background-color: #303030;
   margin: 0;
   padding: 0;
+  
 }
 .App-header {
   background-color: #303030;
@@ -40,7 +41,15 @@ body {
     transform: rotate(360deg);
   }
 }
+.userIcon{
+display: flex;
+}
+.top-and-bottom-bar{
+  display: flex;
 
+
+  
+}
 .top-bar {
   background-color: #222222;
   height: 60px;
@@ -51,8 +60,14 @@ body {
   display: flex;
   justify-content: space-between; 
   align-items: center; 
+  position: fixed;
   padding: 0 20px; 
-  z-index: 999; 
+  z-index: 999;
+  
+  
+}
+.nav-bar{
+  width: 300px;
 }
 .under-bar {
   background-color: #3F2A52;
@@ -66,14 +81,17 @@ body {
   padding: 0 20px;
   z-index: 999; 
   position: fixed; 
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3), 0 -5px 5px rgba(0, 0, 0, 0.3);/* Bottom and top shadow */
 }
 .foryou-box{
   background-color: #222222;
   height: 370px;
   width: 100%;
-  position: fixed;
+ /* position: fixed;*/
   align-items: center;
   top: 238px;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.6), 0 -5px 5px rgba(0, 0, 0, 0.6);/* Bottom and top shadow */
+
 }
 
 .divider {
@@ -83,13 +101,13 @@ body {
   position: absolute;
   top: 120px; 
   left: 0;
-}
+}* {/* divider not needed can use shadow css*/}
 .top-line{
   top: 58px;
-}
+}/* top line not needed*/
 .bottom-line{
   bottom:10px;
-}
+} /* bottom line not needed*/
 
 .foryou-divider{
   width: 100%;  /* Make it span the entire width */
@@ -231,6 +249,10 @@ a.bingr {
   height: 62px; 
   cursor: pointer; /* Makes the avatar clickable */
 }
+.home-box{
+  width: 100%;
+  height: 2000px; {/*remove this is for testing*/}
+}
 .page-content {
   margin-top: 150px; 
   margin-left: 30px;
@@ -326,16 +348,22 @@ a.bingr {
 /* END SIGN IN PAGE */
 
 /* CAROUSEL CSS */
+.carousel-box{
+  display: flex;
+  position: relative;
+  
+}
 .details-box {
   background-color: #171020; 
   height: 218px; 
   width: 450px; 
-  position: fixed;
-  top: 541px;
-  left: 770px;
-  transform: translateX(-50%); /* Offset it by half its width */
-  transform:translateY(-235px);
-  z-index: 1000;
+  /*position: fixed;*/
+  top: 35px;
+  left: 730px;
+  /*transform: translateX(-50%); /* Offset it by half its width */
+  position: absolute;
+  transform:translateY(35px);
+  z-index: 3; /*originally z-index:1000 would be shown through the navabars*/
   filter: drop-shadow(10px 10px 15px rgba(0, 0, 0, 0.6));
 }
 
@@ -360,4 +388,13 @@ a.bingr {
 .swiper-pagination {
   color: #ffffff !important;
   bottom: 0px !important; /* Adjust the positioning to move it below the carousel */
+}
+/*END OF CAROUSEL*/
+/*Library cards*/
+.library-cards{
+  display: flex;
+  justify-content: center;
+  gap:20px;
+
+
 }

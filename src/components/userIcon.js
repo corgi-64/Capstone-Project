@@ -1,17 +1,38 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import Avatar from '@mui/material/Avatar';
-import usericon from '../assets/images/user-avatar.png';
-import '../App.css';
+import * as React from 'react';
+import { AuthenticationContext, SessionContext } from '@toolpad/core/AppProvider';
+import { Account } from '@toolpad/core/Account';
 
-function UserIcon(){
-    return(
-        <div className="avatar-container">
-            <Link to="/profile">
-                <Avatar src={usericon} style={{cursor: "pointer"}} />
-            </Link>
+const demoSession = {
+  user: {
+    name: 'Bharat Kashyap',
+    email: 'bharatkashyap@outlook.com',
+    image: 'https://avatars.githubusercontent.com/u/19550456',
+  },
+};
 
-        </div>
-    );
+export default function AccountDemoSignedIn() {
+  const [session, setSession] = React.useState(demoSession);
+  const authentication = React.useMemo(() => {
+    return {
+      signIn: () => {
+        setSession(demoSession);
+      },
+      signOut: () => {
+        setSession(null);
+      },
+    };
+  }, []);
+
+  return (
+    <div className='userIcon'>
+     <AuthenticationContext.Provider value={authentication}>
+      <SessionContext.Provider value={session}>
+        {/* preview-start */}
+        
+        <Account  sx={{ width: 300, height: 200 }} />
+        {/* preview-end */}
+      </SessionContext.Provider>
+    </AuthenticationContext.Provider>
+    </div>
+  );
 }
-export default UserIcon;

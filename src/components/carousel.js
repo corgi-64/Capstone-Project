@@ -26,8 +26,17 @@ function Carousel() {
   
     const [currentGame, setCurrentGame] = useState(games[0]); // Start with the first game
   
+    const style=  {
+      color:  'white',
+     textAlign:'center',
+     height:'400px',
+     margin:'20px'
+    }
     return (
-      <div>
+    <div style={style}>
+     <h1>Trending</h1>
+ 
+      <div className="carousel-box">
         {/* Display game title conditionally */}
         <div className="details-box">
           <h2 style={{ color: "#b65bd9", textAlign: "left", marginLeft: 14, fontSize: 18 }}>
@@ -72,7 +81,9 @@ function Carousel() {
             ))}
             </Swiper>
       </div>
+      </div>
     );
+    
   }
   
   export default Carousel;

@@ -1,20 +1,29 @@
 import React from "react";
 import Carousel from "../components/carousel";
-
+import Trending from "./Trending";
+import Card from '../components/Card'
 function Home() {
     return (
-
-      <div>
+      <div className="home-box">
         <div className="page-content">
-          <h1>Home</h1>
+         
+          <h1>Home</h1>          
         </div>
         
         <div className="foryou-box">
           {/* Carousel code from carousel.js */}
           <Carousel/>
+          <div className="library-cards">
+            <Card></Card>
+            <Card></Card>
+            <Card></Card>
+            <Card></Card>
+            
+          </div>
+          
+          
         </div>
-          <div className="divider foryou-topline"></div>
-          <div className="divider foryou-bottomline"></div>
+      
       </div>
 
     );

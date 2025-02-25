@@ -5,25 +5,25 @@ import '../App.css';
 import './Buttons'
 import CustomButtons from "./Buttons";
 import { Avatar } from "@mui/material";
-import UserIcon from "./userIcon";
+import AuthenticationContext from "./userIcon";
 import AutocompleteSearchBar from '../components/SearchBar';
 
 function Navbar() {
     const [query, setQuery] = useState("");
     const [results, setResults] = useState([]);
     return (
-        <div>
+        <div className="top-and-bottom-bar">
             {/* Top Navbar : web logo, search bar, sign in, register, user profile */}
             <div className="top-bar">
-            <div className="divider top-line"></div>
-            <div className="divider bottom-line"></div>
-                    <nav>
-                        <Link to="/home" class="bingr">bingr</Link>
-                    </nav>
+                {/*   <div className="divider top-line">
+                    
+                     </div>*/}
+               { /*<div className="divider bottom-line"></div>*/}
 
+                    <nav className="nav-bar"> <Link to="/home" class="bingr">bingr</Link></nav>
                     <AutocompleteSearchBar query={query} setQuery={setQuery} />
                     <CustomButtons />
-                    <UserIcon />
+                  {  /*<AuthenticationContext /> remove later*/}
             </div>
 
             {/* Bottom Navbar: Links: Home, Books, Movies, Games, Bug Reporting, Discord */}
