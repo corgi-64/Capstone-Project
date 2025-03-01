@@ -8,8 +8,9 @@ import { Avatar } from "@mui/material";
 import AuthenticationContext from "./userIcon";
 import AutocompleteSearchBar from '../components/SearchBar';
 
-function Navbar() {
-    const [query, setQuery] = useState("");
+function Navbar({query,setQuery}) {
+    //const [query, setQuery] = useState("");
+   // console.log(query)
     const [results, setResults] = useState([]);
     return (
         <div className="top-and-bottom-bar">

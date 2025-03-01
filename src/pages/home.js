@@ -5,8 +5,13 @@ import { padding } from "@mui/system";
 import { Link } from 'react-router-dom';
 import ImageGrid from '../components/imageGrid'
 import arrow from "../assets/images/Arrow right-circle.png";
+import { useState } from "react";
+import AutocompleteSearchBar from "../components/SearchBar";
 
-function Home() {
+
+function Home({query ,setQuery}) {
+  //const [query,setQuery]= useState("");
+
     return (
       <div className="home-box">
         <div className="page-content">

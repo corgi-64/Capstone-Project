@@ -8,7 +8,7 @@ const AutocompleteSearchBar  = ({query, setQuery}) => {
           borderRadius: "8px", /* Rounds out the corners */
           border: "1px solid #ccc",
           backgroundColor: "white", /* This provides the white BG for the search bar, without this, it inherents the gray navbar color */
-          width: "1000px", /*width originally was 2100px */
+          width: "2100px", /*width originally */
           display: "flex",
           justifyContent: "start",
           alignItems: "center",

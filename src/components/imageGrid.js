@@ -16,27 +16,27 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
-const API_URL = 'https://www.googleapis.com/books/v1/volumes?q=subject:books';
 
+const API_URL = 'https://www.googleapis.com/books/v1/volumes';
 
-
-export default function BasicGrid({maxResults}) {
-
+export default function BasicGrid({ maxResults, query,setQuery}) {
+  //console.log(query)
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        
-        const response = await fetch(`${API_URL}&maxResults=${maxResults}`); //shortens book query to 4
+        const searchQuery = query ? `q=${query}` : 'q=subject:books'; // Use query if available
+        const response = await fetch(`${API_URL}?${searchQuery}&maxResults=${maxResults}`);
         const data = await response.json();
-        setBooks(data.items);
+        setBooks(data.items); // Handle case if no books are returned
       } catch (error) {
         console.log("Error fetching books:", error);
       }
     };
+
     fetchBooks();
-  }, []);
+  }, [query, maxResults]); // Re-fetch when query or maxResults change
 
   return (
     <Box>
@@ -44,12 +44,13 @@ export default function BasicGrid({maxResults}) {
         {books.map((book, index) => (
           <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
             <Item>
-              <Card sx={{ width: 300, height: 450, backgroundColor: 'transparent', boxShadow: 'none', outline: 'none',transition:'.3s', 
-        '&:hover':{opacity:.8},cursor:'pointer','&:active': {
-          opacity: 0.7, // Darker effect on click
-          transform: 'scale(0.98)', // Slightly shrink the card on click
-        },
-             }}>
+              <Card sx={{
+                width: 300, height: 450, backgroundColor: 'transparent', boxShadow: 'none', outline: 'none', transition: '.3s', 
+                '&:hover': { opacity: .8 }, cursor: 'pointer', '&:active': {
+                  opacity: 0.7, // Darker effect on click
+                  transform: 'scale(0.98)', // Slightly shrink the card on click
+                },
+              }}>
                 <CardMedia
                   component="img"
                   height="400"
@@ -57,8 +58,8 @@ export default function BasicGrid({maxResults}) {
                   alt={`Book ${index + 1}`}
                   sx={{ objectFit: 'contain' }}
                 />
-                <CardContent sx={{display:'flex',marginLeft:'10px'}}>
-                  <Box sx={{ display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
+                <CardContent sx={{ display: 'flex', marginLeft: '10px' }}>
+                  <Box sx={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                     {book.volumeInfo.categories?.map((genre, i) => (
                       <Typography
                         key={i}
@@ -69,7 +70,7 @@ export default function BasicGrid({maxResults}) {
                           backgroundColor: '#3e3e3e',
                           borderRadius: '5px',
                           padding: '5px',
-                          fontSize: '12px'
+                          fontSize: '12px',
                         }}
                       >
                         {genre}
