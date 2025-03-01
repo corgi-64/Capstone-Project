@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -8,14 +8,6 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
-// Import images
-import img1 from "../assets/test_book_images/alena.jpg";
-import img2 from "../assets/test_book_images/dead_astronauts.jpg";
-import img3 from "../assets/test_book_images/Fallingman.jpg";
-import img4 from "../assets/test_book_images/leviathan.jpg";
-import img5 from "../assets/test_book_images/love_sad.jpg";
-
-// Styled component for transparent background
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: 'transparent',
   boxShadow: 'none',
@@ -24,46 +16,65 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: theme.palette.text.secondary,
 }));
+const API_URL = 'https://www.googleapis.com/books/v1/volumes?q=subject:books';
 
 
-// Array of book objects with images and genres
-const books = [
-  { image: img1, genres: ["Romance", "Drama"] },
-  { image: img2, genres: ["Action", "Adventure"] },
-  { image: img3, genres: ["Fantasy", "Mystery", "Thriller"] },
-  { image: img4, genres: ["Sci-Fi", "Dystopian"] },
-  { image: img5, genres: ["Horror", "Supernatural"] },
-  { image: img1, genres: ["Comedy", "Action"] },
-  { image: img2, genres: ["Historical", "Biography"] },
-  { image: img3, genres: ["Romance", "Fantasy"] },
-  { image: img4, genres: ["Sci-Fi", "Action"] },
-  { image: img5, genres: ["Mystery", "Adventure"] },
 
-];
+export default function BasicGrid({maxResults}) {
 
+  const [books, setBooks] = useState([]);
 
-export default function BasicGrid() {
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        
+        const response = await fetch(`${API_URL}&maxResults=${maxResults}`); //shortens book query to 4
+        const data = await response.json();
+        setBooks(data.items);
+      } catch (error) {
+        console.log("Error fetching books:", error);
+      }
+    };
+    fetchBooks();
+  }, []);
+
   return (
     <Box>
       <Grid container spacing={2} justifyContent="center">
         {books.map((book, index) => (
           <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
             <Item>
-              <Card sx={{ width: 300, backgroundColor: 'transparent',boxShadow: 'none',outline: 'none',}}>
-                <CardMedia component="img" height="300" image={book.image} alt={`Book ${index + 1}`} sx={{objectFit:'contain',width:'100%'}} />
-                <CardContent>
-                  <Box sx={{display:'flex',gap:'15px', marginLeft:'33px'}} >
-                  {/* Display genres */}
-                  {book.genres.map((genre, i) => (
-                    <Typography key={i} variant="body2" color="text.secondary" 
-                        sx={{display:'flex',flexDirection:'column',
-                              color:'#f5f5f5',backgroundColor:'#3e3e3e',
-                              borderRadius:'5px',
-                             
-                              }}>
-                      {genre}
-                    </Typography>
-                  ))}
+              <Card sx={{ width: 300, height: 450, backgroundColor: 'transparent', boxShadow: 'none', outline: 'none',transition:'.3s', 
+        '&:hover':{opacity:.8},cursor:'pointer','&:active': {
+          opacity: 0.7, // Darker effect on click
+          transform: 'scale(0.98)', // Slightly shrink the card on click
+        },
+             }}>
+                <CardMedia
+                  component="img"
+                  height="400"
+                  image={book.volumeInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/150'}
+                  alt={`Book ${index + 1}`}
+                  sx={{ objectFit: 'contain' }}
+                />
+                <CardContent sx={{display:'flex',marginLeft:'10px'}}>
+                  <Box sx={{ display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
+                    {book.volumeInfo.categories?.map((genre, i) => (
+                      <Typography
+                        key={i}
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{
+                          color: '#f5f5f5',
+                          backgroundColor: '#3e3e3e',
+                          borderRadius: '5px',
+                          padding: '5px',
+                          fontSize: '12px'
+                        }}
+                      >
+                        {genre}
+                      </Typography>
+                    ))}
                   </Box>
                 </CardContent>
               </Card>
