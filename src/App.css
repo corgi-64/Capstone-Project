@@ -391,7 +391,23 @@ a.bingr {
 }
 /*END OF CAROUSEL*/
 /*Library cards*/
+.library-cards-subtitle{
+  
+}
+.subtitle{
+  display: flex;
+  align-items: flex-end;
+  gap: 30px;
+  color: gray;
+ /*these two remove highlighting*/
+user-select: none;
+margin-left: 60px; /*hardcoded movement to the right to align with figma design*/
+}
+#grey-title{
+  color: gray;
+}
 .library-cards{
+  padding: 10px;
   display: flex;
   justify-content: center;
   gap:20px;
