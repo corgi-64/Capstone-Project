@@ -5,6 +5,7 @@ import './App.css';
 import Navbar from "./components/Navbar";
 
 /* Other pages */
+
 import Home from "./pages/home";
 import Books from "./pages/books";
 import Movies from "./pages/movies";
@@ -13,6 +14,7 @@ import Profile from "./pages/profile";
 import BugReport from "./pages/bugreport";
 import SignIn from "./pages/signin";
 import Register from "./pages/register";
+import BookDetailsPage from './pages/bookDetailsPage'
 /* End pages */
 
 function App() {
@@ -36,6 +38,8 @@ function App() {
         <Route path="/bugreport" element={<BugReport />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/book/:id" element={<BookDetailsPage />} /> 
+
       </Routes>
     </Router>
   );

@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
+import { Link } from 'react-router-dom';
+
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -44,19 +46,28 @@ export default function BasicGrid({ maxResults, query,setQuery}) {
         {books.map((book, index) => (
           <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
             <Item>
+            <Link
+                to={`/book/${book.id}`}  // Link to the book details page
+                style={{ textDecoration: 'none' }}
+              >
+                
               <Card sx={{
                 width: 300, height: 450, backgroundColor: 'transparent', boxShadow: 'none', outline: 'none', transition: '.3s', 
                 '&:hover': { opacity: .8 }, cursor: 'pointer', '&:active': {
                   opacity: 0.7, // Darker effect on click
                   transform: 'scale(0.98)', // Slightly shrink the card on click
                 },
+                
               }}>
                 <CardMedia
                   component="img"
                   height="400"
                   image={book.volumeInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/150'}
                   alt={`Book ${index + 1}`}
-                  sx={{ objectFit: 'contain' }}
+                  sx={{ objectFit: 'contain',
+
+                  
+                }}
                 />
                 <CardContent sx={{ display: 'flex', marginLeft: '10px' }}>
                   <Box sx={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
@@ -79,6 +90,7 @@ export default function BasicGrid({ maxResults, query,setQuery}) {
                   </Box>
                 </CardContent>
               </Card>
+              </Link>
             </Item>
           </Grid>
         ))}
