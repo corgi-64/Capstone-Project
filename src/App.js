@@ -13,6 +13,8 @@ import Profile from "./pages/profile";
 import BugReport from "./pages/bugreport";
 import SignIn from "./pages/signin";
 import Register from "./pages/register";
+import FollowersPage from "./pages/followers";
+import FollowingPage from "./pages/following";
 /* End pages */
 
 function App() {
@@ -36,6 +38,8 @@ function App() {
         <Route path="/bugreport" element={<BugReport />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/followers" element={<FollowersPage />} />
+        <Route path="/following" element={<FollowingPage />} />
       </Routes>
     </Router>
   );
