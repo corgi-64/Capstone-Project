@@ -15,6 +15,7 @@ import SignIn from "./pages/signin";
 import Register from "./pages/register";
 import FollowersPage from "./pages/followers";
 import FollowingPage from "./pages/following";
+import EditPage from "./pages/edit";
 /* End pages */
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/followers" element={<FollowersPage />} />
         <Route path="/following" element={<FollowingPage />} />
+        <Route path="/edit" element={<EditPage />} />
       </Routes>
     </Router>
   );

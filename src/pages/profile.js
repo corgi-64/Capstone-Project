@@ -34,7 +34,7 @@ function Profile() {
         <FollowButton></FollowButton>
         <EditButton></EditButton>
         <div className="profile-displayboard-container">
-          <div className="profile-displayboard"><img src={testimg} height='100%' width='100%' style={{borderRadius: "50%",}}></img></div>
+          <div className="profile-displayboard"><img src={testimg} height='100%' width='100%' style={{borderRadius: "10%",}}></img></div>
           <div className="profile-displayboard"></div>
           <div className="profile-displayboard"></div>
         </div>

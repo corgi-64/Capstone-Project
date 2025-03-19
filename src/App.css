@@ -543,6 +543,26 @@ width: 100vw;
 }
 /*End of Profile Page*/
 
+.edit-page-content{
+  display: flex;
+  flex-direction: row;
+  margin-top: 150px; 
+  margin-left: 30px;
+  color:white;
+  font-size: 28px;
+}
+.edit-examples{
+  display: flex;
+  width: 50vw;
+  flex-direction: column;
+  padding-top: 150px;
+  padding-left: 20px;
+}
+.edit-incoming{
+  display: flex;
+  width: 50vw;
+  flex-direction: column;
+}
 /*Extra Buttons for various uses*/
 .edit-button-container{
   display: flex;
@@ -577,4 +597,39 @@ width: 100vw;
   background-color: darkorchid !important;
   color: white !important;
   text-align: center;
+}
+.display-button-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 30vw;
+}
+.dropdown-container{
+  display: flex;
+  flex-direction: column;
+}
+.dropdown-custom{
+  background-color: #505050 !important;
+  color: white !important;
+  font-size: 10px;
+  cursor: pointer;
+  text-align: center;
+}
+.dropdown-custom-content{
+  display: none;
+  background-color: #3F2A52 !important;
+  height: 30px;
+  text-align: center;
+  justify-content: center;
+}
+.dropdown-custom-content a{
+  color: white !important;
+  display: block;
+  font-size: 15px;
+  text-align: center;
+  justify-content: center;
+}
+
+.dropdown-container:hover .dropdown-custom-content{
+  display: block;
 }

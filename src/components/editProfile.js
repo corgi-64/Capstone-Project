@@ -7,7 +7,7 @@ function EditButton(){
     return (
         <div className="edit-button-container">
                 <div>
-                    <Link to="/signin">
+                    <Link to="/edit">
                         <Button className="edit-button-custom">edit profile</Button>
                     </Link>
                 </div>
