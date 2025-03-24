@@ -262,17 +262,22 @@ a.bingr {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+.outer-shell{
+  display: flex;
+  justify-content: center;
+}
+
 .centered-form {
+
   width: 650px;
   padding: 20px;
   background-color: #222222;
   color: white; 
   border-radius: 8px; /* Rounded corners for a smooth look */
-  
-  position: absolute;
-  top: 70%;
+  /*position: absolute;*/
+  /*top: 70%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);*/
 }
 .bugtitle {
   font-size: 36px; 
@@ -280,6 +285,85 @@ a.bingr {
   text-align: center; 
   /*margin-top: 130px; */
 }
+.report-form{
+display: flex;
+justify-content: center;
+flex-direction: column;
+
+}/*New Bug FORM below here*/
+.form-container {
+  width: 600px;
+  height: 770px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.form-questions{
+  text-align: center;
+  color: white;
+}
+label{
+  display: flex;
+  align-items: center;
+}
+#file-upload-button{
+width: 300px;
+
+}
+
+
+.outer-input{
+  display: flex;
+  justify-content: space-between;
+}
+.form-label{
+  display: flex;
+  justify-content: center;
+}
+.bug-report-input{
+  width: 350px;
+  border-color: black;
+  border-width: 4px;
+  box-shadow: 10px 5px 5px rgb(44, 41, 41);
+  line-height: 1.4;
+  vertical-align: top;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+label {
+  margin-bottom: 10px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  
+  border-radius: 4px;
+}
+
+.submit-button {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: rgb(191, 170, 113);
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background-color 1s ease, color 0.3s ease; /* Transition effect */
+
+}
+
+button:hover {
+  background-color: rgb(176, 147, 75);
+}
+
 
 /* SIGN IN PAGE */
 .signin-title{
@@ -467,6 +551,7 @@ a.bingr {
   transform: scale(1); /* Optionally scale the box when hovered */
 }
 
+
 .hover-box {
   position: absolute;
   width: 350px;
@@ -548,6 +633,7 @@ a.bingr {
   font-weight: bold;
   z-index: 990;
 }
+
 /* end movie stuff */
 
 .see-more {
