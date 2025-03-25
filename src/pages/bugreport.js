@@ -9,6 +9,7 @@ export default function BasicForm() {
 
   });
 
+  
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -16,7 +17,7 @@ export default function BasicForm() {
     setFormData({ ...formData, file: e.target.files[0] });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     
     // Create a FormData object for file submission
@@ -24,12 +25,32 @@ export default function BasicForm() {
     data.append("name", formData.name);
     data.append("email", formData.email);
     data.append("file", formData.file);
+    data.append("issue", formData.issue);
+    data.append("message", formData.message);
 
     console.log("Form Data Submitted:", formData);
     alert("Form submitted successfully!");
     
     // Reset form
     setFormData({ name: "", email: "", file: null });
+
+    try {
+      const response = await fetch("http://localhost:3000/bugreport", {
+        method: "POST",
+        body: data
+      });
+
+      if (response.ok) {
+        alert("Form submitted successfully!");
+        setFormData({ name: "", email: "", issue: "", message: "", file: null });
+      } else {
+        alert("Error frontend");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred while submitting the form.");
+    }
+
   };
 
   return (
@@ -51,7 +72,7 @@ export default function BasicForm() {
               name="name" 
               value={formData.name} 
               onChange={handleChange} 
-              required 
+               
               className="bug-report-input"
               list="title-suggestions" // Link to the datalist
               placeholder="Title of the issue"
@@ -72,7 +93,7 @@ export default function BasicForm() {
               name="email" 
               value={formData.email} 
               onChange={handleChange} 
-              required 
+               
               className="bug-report-input"
               placeholder="Enter Your Email"
             
@@ -87,7 +108,7 @@ export default function BasicForm() {
               name="issue" 
               value={formData.issue} 
               onChange={handleChange} 
-              required 
+               
               className="bug-report-input"
               placeholder="Describe the issue"
               style={{height:'100px'}}
@@ -100,7 +121,7 @@ export default function BasicForm() {
               name="message" 
               value={formData.message} 
               onChange={handleChange} 
-              required 
+               
               className="bug-report-input"
               placeholder="Describe how to reproduce the issue"
               style={{height:'100px'}}
@@ -114,7 +135,7 @@ export default function BasicForm() {
               type="file" 
               name="file" 
               onChange={handleFileChange} 
-              required 
+               
               className="bug-report-input"
             />
           </div>
