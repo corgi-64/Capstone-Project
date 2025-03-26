@@ -22,18 +22,19 @@ export default function BasicForm() {
     
     // Create a FormData object for file submission
     const data = new FormData();
+    console.log(formData.name)
     data.append("name", formData.name);
     data.append("email", formData.email);
-    data.append("file", formData.file);
+   // data.append("file", formData.file);
     data.append("issue", formData.issue);
     data.append("message", formData.message);
 
     console.log("Form Data Submitted:", formData);
-    alert("Form submitted successfully!");
+    
+    console.log("Form submitted successfully!");
     
     // Reset form
-    setFormData({ name: "", email: "", file: null });
-
+    setFormData({ name: "", email: "", issue: "", message: "", file: null });
     try {
       const response = await fetch("http://localhost:3000/bugreport", {
         method: "POST",
@@ -41,10 +42,10 @@ export default function BasicForm() {
       });
 
       if (response.ok) {
-        alert("Form submitted successfully!");
+        console.log("Form submitted successfully!");
         setFormData({ name: "", email: "", issue: "", message: "", file: null });
       } else {
-        alert("Error frontend");
+        console.log("Error frontend");
       }
     } catch (error) {
       console.error("Error:", error);

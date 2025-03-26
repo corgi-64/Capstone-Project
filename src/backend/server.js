@@ -1,31 +1,39 @@
 const express = require('express');
 const cors = require('cors');
-const bugReportController = require("./controllers/bugReportController");
-const { connectToServer } = require("./connect"); // Adjust path to where your connect.js file is located
+const mongoose = require('mongoose');
+const multer = require('multer');
+const bugReportController = require('./controllers/bugReportController');
+require("dotenv").config({path: "./config.env"})
 
 const app = express();
 
-connectToServer();
-// Enable CORS for the specific origin (React app)
+// Connect to MongoDB
+mongoose.connect(process.env.ATLAS_URI)
+//process.env.ATLAS_URI
+// Enable CORS for Frontend
 app.use(cors({
   origin: 'http://localhost:3001', // Frontend URL
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// Your other server configurations go here
+// Multer setup for file uploads
+const upload = multer({ dest: 'uploads/' }); // Store files in the 'uploads' folder
 
-app.use(express.json());  // For parsing application/json
+// Middleware for JSON and URL-encoded data parsing
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-
-app.post('/bugreport', bugReportController.updateBugReport);
-
-/*app.post('/bugreport', (req, res) => {
-  // Handle form submission
-  bugReportController.updateBugReport;
-  console.log('skibb')
-  res.status(200).send('Bug report submitted successfully');
+// Debugging middleware
+app.use((req, res, next) => {
+  console.log('Incoming Request:', req.method, req.url);
+  console.log('Request Body:', req.body); // Log form fields
+  console.log('Uploaded File:', req.file); // Log uploaded file
+  next();
 });
-*/
-// Listen on port 3000
-app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+
+// Route for Bug Report
+app.post('/bugreport', upload.single('file'), bugReportController.updateBugReport);
+
+// Start the server
+app.listen(3000, () => console.log('✅ Server running on http://localhost:3000'));

@@ -2,6 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
 const {fetchSteamGameDetails} = require('./steamApiHelper');
+const multer = require("multer");
 
 const app = express();
 const PORT = process.env.PORT || 5001;
