@@ -62,6 +62,14 @@ function SignIn() {
                             Don't have an account? <a href="/register" style={{ textDecoration: "underline" }}>Register</a>
                         </p>
                     </div>
+
+                    {/* Recovery Prompt on the sign in page */}
+                    <div className="signin-content">
+                        <p style={{ textAlign: "center", fontSize: "14px", marginTop: "20px", marginBottom: "10px" }}>
+                            Forgot Password? <a href="/recovery" style={{ textDecoration: "underline" }}>Recover Now</a>
+                        </p>
+                    </div>
+
                 </div>
             </div>
 

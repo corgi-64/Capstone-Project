@@ -18,6 +18,9 @@ import FollowingPage from "./pages/following";
 import EditPage from "./pages/edit";
 import SteamGameSearchPage from "./pages/SteamGameSearchPage"; /* this is here for debugging */
 import TMDBtest from "./pages/TMDBtest"; /* this is here for debugging */
+import PageNotFound from "./pages/PageNotFound";
+import Recovery from "./pages/Recovery";
+import Reset from "./pages/Reset";
 /* End pages */
 import BookDetailsPage from './pages/bookDetailsPage'
 
@@ -55,6 +58,9 @@ function App() {
         <Route path="/steam-search" element={<SteamGameSearchPage/>}/>
         <Route path="/tmdb-search" element={<TMDBtest/>}/>
         <Route path="/book/:id" element={<BookDetailsPage />} /> 
+        <Route path="*" element={<PageNotFound />} />
+        <Route path="/reset" element={<Reset />} />
+        <Route path="/recovery" element={<Recovery />} />
 
       </Routes>
     </Router>
