@@ -23,6 +23,8 @@ import Recovery from "./pages/Recovery";
 import Reset from "./pages/Reset";
 /* End pages */
 import BookDetailsPage from './pages/bookDetailsPage'
+import MovieDetailsPage from "./pages/movieDetailsPage";
+import GameDetailsPage from "./pages/gameDetailsPage";
 
 import ScrollToTop from "./ScrollToTop";
 
@@ -62,6 +64,8 @@ function App() {
         <Route path="/reset" element={<Reset />} />
         <Route path="/recovery" element={<Recovery />} />
 
+        <Route path="/movie/:id" element={<MovieDetailsPage/>}/>
+        <Route path="/game/:id" element={<GameDetailsPage/>}/>
       </Routes>
     </Router>
   );
