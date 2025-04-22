@@ -29,7 +29,8 @@ import banner from "../assets/images/Web_App_Bg_Transparent.png"
 import testimg from "../assets/movies_posters/28 Days Later (2002).png"
 import ProfilePictureUploader from "../components/profileIcon";
 import BannerUploader from "../components/banner";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { getSingleUser } from "../backend/controllers/profileController.js";
 
 
 
@@ -145,7 +146,20 @@ function Profile({ books,setBooks,maxResults=3}) {
   //console.log(username)
 
 
-
+  function IsVisitor(){
+    let params = useParams()
+    //let testUser = getSingleUser(params.id)
+    if(userId != params.id){
+      return (
+      <div>
+        <FollowButton/>
+        <h2>hey</h2>
+        </div>
+    )
+    }else{
+      return <EditButton/>
+    }
+  }
 
 
 
@@ -162,20 +176,22 @@ function Profile({ books,setBooks,maxResults=3}) {
           <div className="media-type">
             <h1>Books</h1>
             <h1>Movies</h1>
-            {/*<h1>Shows</h1>*/}
             <h1>Games</h1>
           </div>
           <div className="amount-read">
             <h1>23</h1>
             <h1>46</h1>
-            {/*<h1>11</h1>*/}
             <h1>58</h1>
           </div>
         </div>
       </div>
     <div className="profile-details">
-        <FollowButton></FollowButton>
-        <EditButton></EditButton>
+    <div className="edit-button-container">
+                <div className="profile-name">
+                    <h1>{username}</h1>
+                  </div>
+            </div>
+      {IsVisitor()}
         <div className="profile-displayboard-container">
           <div className="profile-displayboard"><img src={testimg} height='100%' width='100%' style={{borderRadius: "10%",}}></img></div>
           <div className="profile-displayboard"></div>

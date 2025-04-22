@@ -26,6 +26,8 @@ export default function PageButton(){
     }
     const testActivity = userActivity;
     let activity = userActivity[index];*/
+    const username = localStorage.getItem('username');
+
     function formatTitle(entry){
         if(entry.mediaType == 'game'){
             return <p>started playing {entry.title}</p>
@@ -55,7 +57,7 @@ export default function PageButton(){
                         <img src="https://avatars.githubusercontent.com/u/19550456" height={50} width={50} style={{borderRadius: "50%",}}/>
                     </div>
                     <div className="user-activity-name">
-                        <p>Bharat</p>
+                        <p>{username}</p>
                     </div>
                     <div className="user-activity-log">
                         {formatTitle(userActivity[listNO])}

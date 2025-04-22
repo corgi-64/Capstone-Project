@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { getSingleUser } from "../backend/controllers/profileController.js";
+import { useParams } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import usericon from '../assets/images/user-avatar.png';
 import '../App.css';
@@ -51,7 +53,7 @@ function UserIcon() {
 
     return (
         <div className="avatar-container">
-            <Link to="/profile">
+            <Link to={`/profile/${userId}`}>
                 <Avatar src={avatar} style={{ cursor: "pointer" }} />
             </Link>
         </div>

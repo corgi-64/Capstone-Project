@@ -10,6 +10,7 @@ var counter ={
 };
 
 export default function FollowButton() {
+    const username = localStorage.getItem('username');
 
     /*const[index, setIndex] = useState(0);*/
     const [follow, setFollow] = useState(false);
@@ -29,13 +30,10 @@ export default function FollowButton() {
     return(
         <>
             <div className="edit-button-container">
-                <div className="profile-name">
-                    <h1>Bharat</h1>
                         <a>{counter.following}</a>
                         <b><Link to="/followers">Followers</Link></b>
                         <b>* {counter.followers} </b>
                         <b><Link to="/following">Following</Link></b>
-                    </div>
                 <div>
                     <Button className="follow-button-contained" onClick={handleClick}>{follow ? 'Unfollow' : 'Follow'}</Button>
                 </div>

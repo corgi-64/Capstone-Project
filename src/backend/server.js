@@ -14,6 +14,7 @@ const User = require('./models/userSchema')  // to use userschema
 
 // *** UserRoutes file
 const users = require("./userRoutes")
+const profile = require("./profileRoutes")
 
 require("dotenv").config({path: "./config.env"})
 
@@ -38,6 +39,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // *** User Routes
 app.use(users)
+app.use(profile)
 
 // *** User Authentication part (Martin's Middleware) already uses cors. Make sure they don't conflict.
 // Enable CORS for Frontend
@@ -172,7 +174,8 @@ mongoose
    // useUnifiedTopology: true //Not Needed
 })
 .then(() => {
-    app.listen(3003, () => {        // Use this port 3003
+    app.listen(3003, async () => {        // Use this port 3003
+        await connect.connectToServer()
         console.log('Server connected to port 3003 and MongoDb')
     })
 })

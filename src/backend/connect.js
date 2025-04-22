@@ -13,17 +13,24 @@ const client = new MongoClient(process.env.MONGO_URI, {
   }
 });
 
-let database 
+let database
+let testdatabase
 
 module.exports = {
 
   //creates the initial connection between the code and the database
   connectToServer: () => {
     database = client.db("userData")
+    testdatabase = client.db("test")
+    return (testdatabase === undefined ? fasle : true)
   },
 
   getDb: () => {
     return database
+  },
+
+  getPDb: () => {
+    return testdatabase
   }
 }
 

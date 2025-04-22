@@ -1,4 +1,4 @@
-const User = require("../models/UserSchema");
+const User = require("../models/userSchema");
 const multer = require("multer");
 
 // Memory storage (for saving in buffer, like to upload to S3 or DB)
