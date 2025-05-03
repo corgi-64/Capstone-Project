@@ -27,7 +27,7 @@ def build_user_vector(preferences):
 # Example usage for testing
 dummy_user_preferences = {
     "genres": ["Action", "Adventure", "Western"],
-    "preferredLength": "90-120 minutes",
+    "preferredLength": ["90-120 minutes","120-150 minutes"],
     "timePeriods": ["1990-2000", "2010-2020"],
     "languages": ["English", "Japanese"]
 }

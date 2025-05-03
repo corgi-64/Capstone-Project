@@ -9,8 +9,8 @@ def cosine_similarity(vec1, vec2):
     return dot_product / (norm_a * norm_b)
 
 # Example usage
-user_vector = np.array([0, 1, 1, 0])
-movie_vector = np.array([0, 1, 1, 0])
+user_vector = np.array([1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0])
+movie_vector = np.array([1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0])
 
 similarity = cosine_similarity(user_vector, movie_vector)
 print("Similarity:", similarity)
