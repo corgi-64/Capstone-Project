@@ -2,7 +2,6 @@ const express = require('express') // setups server
 const connect = require("./connect")
 const cors = require('cors') // Helps minimize errors when connecting to database or API
 const mongoose = require('mongoose') //makes it easy to connect to MongoDB and make schemas
-const bodyParser = require('body-parser') // helps parse data into json
 const bcrypt = require('bcryptjs') // hash passwords
 const jwt = require('jsonwebtoken') // follows the user for the session
 const multer = require('multer');
@@ -37,7 +36,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // *** User Routes
-app.use(users)
+app.use('/users', users)
 
 // *** User Authentication part (Martin's Middleware) already uses cors. Make sure they don't conflict.
 // Enable CORS for Frontend
@@ -46,6 +45,9 @@ app.use(cors({
   methods: ['GET', 'POST','PUT'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+// Initialize DB connection
+connect.connectToServer();  // Ensure DB connection is established
 
 // Middleware for User Authentication
 //app.use(bodyParser.json()) both bodyParser and express.json try to read stream and then one of them crashes causing server to crash.
@@ -148,7 +150,7 @@ app.post('/bugreport', upload.single('file'), bugReportController.updateBugRepor
 
 // *** Old Stanislav's code replaced with Martin's code. Left in case it needs to be reactivated.
 // Start the server 
-//app.listen(3003, () => console.log('✅ Server running on http://localhost:3000'));
+//app.listen(3003, () => console.log('✅ Server running on http://localhost:3003'));
 app.post('/want-to-watch',MovieController.MovieAdd);
 app.get("/:username/movies",MovieController.getUserMovie )
 

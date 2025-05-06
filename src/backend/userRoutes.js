@@ -1,78 +1,76 @@
-const express = require("express")
-const database = require("./connect")
-const ObjectId = require("mongodb").ObjectId
+const express = require("express");
+const mongoose = require("mongoose");
+const User = require("./models/userSchema"); // Mongoose model
+const userRoutes = express.Router();
 
-let userRoutes = express.Router()
-
-//1 - Retrieve All
-//http://localhost:3000/users
-userRoutes.route("/users").get(async (request, response) => {
-
-  let db = database.getDb()
-  //calling an empty object to show all users
-  let data = await db.collection("users").find({}).toArray()
-
-  if(data.length > 0){
-    response.json(data)
-  } else {
-    throw new Error("Data was not found :( ")
+// 1 - Retrieve All Users
+// GET http://localhost:3003/users
+userRoutes.get("/", async (req, res) => { // GET /users
+  try {
+    const users = await User.find({});
+    res.status(200).json(users);
+  } catch (error) {
+    console.error("Error retrieving users:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
-})
+});
 
-//2 - Retrieve One
-userRoutes.route("/users/:id").get(async (request, response) => {
-
-  let db = database.getDb()
-  //Finding one user
-  let data = await db.collection("users").findOne({_id: new ObjectId(request.params.id)})
-
-  if(Object.keys(data).length > 0){
-    response.json(data)
-  } else {
-    throw new Error("Data was not found :( ")
+// 2 - Retrieve One User by ID
+// GET http://localhost:3003/users/:id
+userRoutes.get("/:id", async (req, res) => {  // GET /users/:id
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ error: "User not found" });
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error retrieving user:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
-})
+});
 
-//3 - Create One
-userRoutes.route("/users").post(async (request, response) => {
-
-  let db = database.getDb()
-  let mongoObject = {
-    username: request.body.username,
-    password: request.body.password
+// 3 - Create New User
+// POST http://localhost:3003/users
+userRoutes.post("/", async (req, res) => { // POST /users
+  try {
+    const { email, username, password, age } = req.body;
+    const newUser = new User({ email, username, password, age });
+    await newUser.save();
+    res.status(201).json({ message: "User created", user: newUser });
+  } catch (error) {
+    console.error("Error creating user:", error);
+    res.status(500).json({ error: "Failed to create user" });
   }
+});
 
-  //Finding one user
-  let data = await db.collection("users").insertOne(mongoObject)
-
-  response.json(data)
-})
-
-//4 - Update One
-userRoutes.route("/users/:id").put(async (request, response) => {
-
-  let db = database.getDb()
-  let mongoObject = {
-    $set: {
-      username: request.body.username,
-      password: request.body.password
-    }
+// 4 - Update User by ID
+// PUT http://localhost:3003/users/:id
+userRoutes.put("/users/:id", async (req, res) => {
+  try {
+    const { email, username, password, age } = req.body;
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      { email, username, password, age },
+      { new: true, runValidators: true }
+    );
+    if (!updatedUser) return res.status(404).json({ error: "User not found" });
+    res.status(200).json({ message: "User updated", user: updatedUser });
+  } catch (error) {
+    console.error("Error updating user:", error);
+    res.status(500).json({ error: "Failed to update user" });
   }
+});
 
-  //Finding one user
-  let data = await db.collection("users").updatetOne({_id: new ObjectId(request.params.id)}, mongoObject)
+// 5 - Delete User by ID
+// DELETE http://localhost:3003/users/:id
+userRoutes.delete("/users/:id", async (req, res) => {
+  try {
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
+    if (!deletedUser) return res.status(404).json({ error: "User not found" });
+    res.status(200).json({ message: "User deleted", user: deletedUser });
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    res.status(500).json({ error: "Failed to delete user" });
+  }
+});
 
-  response.json(data)
-})
-
-//5 - Delete One 
-userRoutes.route("/users/:id").delete(async (request, response) => {
-
-  let db = database.getDb()
-  //Finding one user
-  let data = await db.collection("users").deleteOne({_id: new ObjectId(request.params.id)})
-
-  response.json(data)
-})
-
-module.exports = userRoutes 
+module.exports = userRoutes;
