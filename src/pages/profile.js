@@ -26,11 +26,13 @@ import EditButton from "../components/editProfile.js";
 import PageButton from "../components/pageButton.js";
 import FollowButton from "../components/followButton.js";
 import banner from "../assets/images/Web_App_Bg_Transparent.png"
+import avatar from "../assets/images/user-avatar.png"
 import testimg from "../assets/movies_posters/28 Days Later (2002).png"
 import ProfilePictureUploader from "../components/profileIcon";
 import BannerUploader from "../components/banner";
 import { Link, useParams } from "react-router-dom";
 import { getSingleUser } from "../backend/controllers/profileController.js";
+import axios from "axios";
 
 
 
@@ -40,11 +42,21 @@ function Profile({ books,setBooks,maxResults=3}) {
   const [userMovies, setUserMovies] = useState([]);
   const [userProfilePic, setProfilePic] = useState(localStorage.getItem('avatar'));
   const [userBanner, setBanner] = useState(localStorage.getItem('banner'));
-  const username = localStorage.getItem("username");
+  const [username, setUsername] = useState(localStorage.getItem("username"));
   const userId = localStorage.getItem("userId"); // instead of "username"
+  const alpaca = useParams().id
 
+  useEffect(() => {
+    async function grabUserName() {
+      const res = await axios.get(`http://localhost:3003/user/username/${alpaca}`)
+      console.log(res.data.data)
+      if (res.status === 200) {
+        setUsername(res.data.data)
+      }
+    }
 
-  console.log(username);
+    grabUserName()
+  },[])
 //console.log(userBanner,"hers banner")
 
 //console.log(userProfilePic,"hers prof pic")
@@ -54,7 +66,7 @@ function Profile({ books,setBooks,maxResults=3}) {
     async function fetchBannerImage() {
       try {
         
-        const bannerRes = await fetch(`http://localhost:3003/user/profile-banner/${userId}`); // updates bannere
+        const bannerRes = await fetch(`http://localhost:3003/user/profile-banner/${alpaca}`); // updates bannere
         //console.log(bannerRes)
         if (bannerRes.ok) {
           const bannerData = await bannerRes.json();
@@ -82,14 +94,52 @@ function Profile({ books,setBooks,maxResults=3}) {
       }
     }
   
-    if (username && userId) {
+    if (username && alpaca) {
       fetchBannerImage();
     } else {
       setBanner(banner); // fallback to default
     }
-  }, [username, userId]);
+  }, [username, alpaca]);
   
-     
+
+  useEffect(() => {
+    async function fetchProfilePicture() {
+      try {
+        
+        const pictureRes = await fetch(`http://localhost:3003/user/profile-picture/${alpaca}`); // updates bannere
+        //console.log(bannerRes)
+        if (pictureRes.ok) {
+          const pictureData = await pictureRes.json();
+  
+          const base64Image = `data:${pictureData.contentType};base64,${pictureData.data}`;
+          setProfilePic(base64Image);
+          localStorage.setItem("avatar", base64Image);
+
+
+          if (pictureData && pictureData.data && pictureData.contentType) {
+            const base64Image = `data:${pictureData.contentType};base64,${pictureData.data}`;
+            setProfilePic(base64Image);
+            localStorage.setItem("avatar", base64Image);
+         //   console.log(localStorage,"this is the storage!!1")
+          } else {
+            throw new Error("Invalid avatar data");
+          }
+        } else {
+          throw new Error("Avatar not found");
+        }
+      } catch (error) {
+        
+        console.error("Failed to fetch avatar image:", error);
+        setProfilePic(avatar); // fallback to default
+      }
+    }
+  
+    if (username && alpaca) {
+      fetchProfilePicture();
+    } else {
+      setProfilePic(avatar); // fallback to default
+    }
+  }, [username, alpaca]);
 
   
 
@@ -153,7 +203,6 @@ function Profile({ books,setBooks,maxResults=3}) {
       return (
       <div>
         <FollowButton/>
-        <h2>hey</h2>
         </div>
     )
     }else{
@@ -179,9 +228,9 @@ function Profile({ books,setBooks,maxResults=3}) {
             <h1>Games</h1>
           </div>
           <div className="amount-read">
-            <h1>23</h1>
-            <h1>46</h1>
-            <h1>58</h1>
+            <h1>{userBooks.length}</h1>
+            <h1>{userMovies.length}</h1>
+            <h1></h1>
           </div>
         </div>
       </div>

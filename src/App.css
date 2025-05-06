@@ -725,7 +725,6 @@ object-fit: cover;
 .dropdown-custom-content{
   display: none;
   background-color: #3F2A52 !important;
-  height: 30px;
   text-align: center;
   justify-content: center;
 }
@@ -733,6 +732,7 @@ object-fit: cover;
   color: white !important;
   display: block;
   font-size: 15px;
+  border: 1px solid #000000;
   text-align: center;
   justify-content: center;
 }

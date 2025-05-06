@@ -6,14 +6,43 @@ import banner from "../assets/images/Web_App_Bg_Transparent.png"; // Default ban
 import avatar from "../assets/images/user-avatar.png"; // Default avatar image
 
 function EditPage() {
+    const [userBooks, setUserBooks] = useState([]);
+    const [userMovies, setUserMovies] = useState([]);
     const [userBanner, setBanner] = useState(banner); // Default banner set here
     const [bannerPreview, setBannerPreview] = useState(localStorage.getItem('banner'));
     const [userProfilePic, setProfilePic] = useState(avatar); // Default profile picture
     const [profilePicPreview, setProfilePicPreview] = useState(localStorage.getItem('avatar'));
+    const [username, setUsername] = useState(localStorage.getItem("username"));
     const userId= localStorage.getItem('userId');
 
+    useEffect(() => {
+        const fetchBooks = async () => {
+          try {
+            const response = await fetch(`http://localhost:3003/${username}/books`);
+            const data = await response.json();
+            setUserBooks(data);
+          } catch (error) {
+            console.error("Error fetching books:", error);
+          }
+        };
 
+    if (username) fetchBooks();
+}, [username]);
     
+useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const response = await fetch(`http://localhost:3003/${username}/movies`);
+        const data = await response.json();
+        setUserMovies(data);
+      } catch (error) {
+        console.error("Error fetching books:", error);
+      }
+    };
+
+    if (username) fetchMovies();
+  }, [username]);
+
     const saveImagesToMongo = () => {
         const formData = new FormData();
         formData.append('profile_picture', userProfilePic);  // If using base64, you can send it directly
@@ -90,6 +119,7 @@ function EditPage() {
                         <Button className="dropdown-custom">Left Display</Button>
                         <div className="dropdown-custom-content">
                             <a>Favorites</a>
+                            <a>{userBooks.title}</a>
                         </div>
                     </div>
                    

@@ -160,6 +160,7 @@ app.post('/want-to-read',BookController.BookAdd);
 app.get("/:username/books",BookController.getUserBook )
 app.get("/user/profile-picture/:userId",UserController.userProfileGet)
 app.get("/user/profile-banner/:userId",UserController.userBannerGet)
+app.get("/user/username/:userId",UserController.userNameGet)
 
 
 

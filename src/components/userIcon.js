@@ -10,9 +10,9 @@ function UserIcon() {
     const [avatar, setAvatar] = useState(localStorage.getItem('avatar') || usericon);
     const userId = localStorage.getItem('userId');
     const username = localStorage.getItem('username');
-   // console.log(userId);
+    console.log(userId);
 
-    //console.log("trigger")
+    console.log("trigger")
 
     useEffect(() => {
         if (!username) {
@@ -50,7 +50,7 @@ function UserIcon() {
 
 
     
-
+    if (userId) {
     return (
         <div className="avatar-container">
             <Link to={`/profile/${userId}`}>
@@ -58,6 +58,15 @@ function UserIcon() {
             </Link>
         </div>
     );
+    } else{
+        return (
+        <div className="avatar-container">
+            <Link to="/signin">
+                <Avatar src={avatar} style={{ cursor: "pointer" }} />
+            </Link>
+        </div>
+        )
+    }
 }
 
 export default UserIcon;

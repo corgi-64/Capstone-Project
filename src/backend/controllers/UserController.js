@@ -112,3 +112,28 @@ exports.userBannerGet = async (req, res) => {
 };
 
 
+exports.userNameGet = async (req, res) => {
+  console.log("name")
+  const userId = req.params.userId; // Or however you get the userId
+  console.log("test name")
+  try {
+      const user = await User.findById(userId); // Using async/await to get the user
+      if (!user) {
+          return res.status(404).json({ message: "User not found" });
+      }
+
+      // Debug: Log the user's name
+     console.log(user.username);
+
+      if (user.username) {
+          // Only proceed if name exists
+          res.json({ data: user.username });
+      } else {
+          // If banner image is not found or has no data
+          res.status(404).json({ message: "Name not found" });
+      }
+  } catch (error) {
+      console.error("Error fetching user name:", error);
+      res.status(500).json({ message: "Error fetching user name" });
+  }
+};

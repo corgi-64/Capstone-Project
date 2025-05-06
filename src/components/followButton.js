@@ -10,7 +10,6 @@ var counter ={
 };
 
 export default function FollowButton() {
-    const username = localStorage.getItem('username');
 
     /*const[index, setIndex] = useState(0);*/
     const [follow, setFollow] = useState(false);
