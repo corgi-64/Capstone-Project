@@ -44,7 +44,7 @@ userRoutes.post("/", async (req, res) => { // POST /users
 
 // 4 - Update User by ID
 // PUT http://localhost:3003/users/:id
-userRoutes.put("/users/:id", async (req, res) => {
+userRoutes.put("/:id", async (req, res) => {
   try {
     const { email, username, password, age } = req.body;
     const updatedUser = await User.findByIdAndUpdate(
@@ -62,7 +62,7 @@ userRoutes.put("/users/:id", async (req, res) => {
 
 // 5 - Delete User by ID
 // DELETE http://localhost:3003/users/:id
-userRoutes.delete("/users/:id", async (req, res) => {
+userRoutes.delete("/:id", async (req, res) => {
   try {
     const deletedUser = await User.findByIdAndDelete(req.params.id);
     if (!deletedUser) return res.status(404).json({ error: "User not found" });
@@ -70,6 +70,26 @@ userRoutes.delete("/users/:id", async (req, res) => {
   } catch (error) {
     console.error("Error deleting user:", error);
     res.status(500).json({ error: "Failed to delete user" });
+  }
+});
+
+// 6 - PUT http://localhost:3003/users/:id/favorite_games
+userRoutes.put("/:id/favorite_games", async (req, res) => {
+  try {
+    const { favorite_games } = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      { favorite_games },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedUser) return res.status(404).json({ error: "User not found" });
+
+    res.status(200).json({ message: "Favorite games updated", user: updatedUser });
+  } catch (error) {
+    console.error("Error updating favorite games:", error);
+    res.status(500).json({ error: "Failed to update favorite games" });
   }
 });
 

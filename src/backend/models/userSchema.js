@@ -50,14 +50,19 @@ const userSchema = new mongoose.Schema({
                 // Add any other fields you need for each book
             }],
             favorite_games: [
-            {
-                title: { type: String }, // Game title
-                genre: {type:Number}, // Genre of the game
-                description: { type: String },
-                thumbnail: { type: String }, // Optional description
-                id:{type:Number}
-                // Add any other fields you need for each game
-            }],
+              {
+                  title: { type: String }, // Game title
+                  developer: { type: String }, // Game developers
+                  publisher: { type: String }, // Game publishers
+                  price: { type:Number }, // Game price
+                  genre: {type:Number}, // Game Genres
+                  supported_languages: { type: String }, // Supported languages
+                  publisher: { type: String }, // Game publishers
+                  platforms: { type: String }, // Game platforms
+                  thumbnail: { type: String }, // Optional description
+                  id:{type:Number}
+                  // Add any other fields you need for each game
+              }],
             survey: {
                 selectedMedia: [String],
                 selectedGenres: [String],
