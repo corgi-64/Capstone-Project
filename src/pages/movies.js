@@ -17,9 +17,57 @@ function Movies({query,setQuery}) {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedMovieId, setSelectedMovieId] = useState(null);
   const [shuffledGenres] = useState(() => shuffleArray(genres));
+  const [searchResults, setSearchResults] = useState([]);
+
+
+
+
 
   const movieRefs = useRef({});
   const navigate = useNavigate();
+useEffect(() => {
+  const fetchSearchResults = async () => {
+    if (!query) return;
+
+    try {
+      const response = await axios.get("http://localhost:5002/search", {
+        params: { query }
+      });
+
+      const enrichedResults = await Promise.all(
+        response.data.results.map(async (movie) => {
+          try {
+            const detailsResponse = await axios.get(
+              `http://localhost:5002/movie/${movie.id}`
+            );
+            return {
+              id: movie.id,
+              title: movie.title,
+              tagline: detailsResponse.data.tagline || "",
+              overview: movie.overview,
+              release_date: movie.release_date,
+              poster_path: movie.poster_path,
+              vote_average: movie.vote_average || "N/A",
+              popularity: movie.popularity || "N/A",
+              original_language: movie.original_language || "N/A",
+              genre_ids: movie.genre_ids || [],
+              runtime: detailsResponse.data.runtime || "N/A",
+            };
+          } catch (error) {
+            console.error(`Error enriching movie ID ${movie.id}:`, error);
+            return movie; // fallback to raw movie
+          }
+        })
+      );
+
+      setSearchResults(enrichedResults);
+    } catch (err) {
+      console.error("Search failed:", err);
+    }
+  };
+
+  fetchSearchResults();
+}, [query]);
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -125,6 +173,31 @@ function Movies({query,setQuery}) {
         <h1>Movies</h1>
       </div>
 
+      {query && searchResults.length > 0 && (
+  <div className="search-results">
+    <h2>Search Results</h2>
+    <div className="search-results-grid" style={{ display: 'flex', flexWrap: 'wrap',gap:'20px',justifyContent:'center'}}>
+      {searchResults.map(movie => (
+        <div
+          key={movie.id}
+          className="movie-poster" 
+          onClick={() => navigate(`/movie/${movie.id}`)}
+        >
+          <img
+            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+            alt={movie.title}
+            className="movie-poster"
+          />
+          <p style={{ color: "white" }}>{movie.title}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
+
+
+
       {isLoading ? (
         <p>Loading...</p>
       ) : (
@@ -149,8 +222,9 @@ function Movies({query,setQuery}) {
                       <div
                         className="image-container"
                         ref={(el) => (movieRefs.current[movie.id] = el)}
-                        onClick={() => setSelectedMovieId(selectedMovieId === movie.id ? null : movie.id)}
+                        onClick={() => setSelectedMovieId(selectedMovieId === movie.id ? null : movie.id) /*() => navigate(`/movie/${movie.id}`) */} 
                         style={{ position: "relative" }}
+                        
                       >
                         <img
                           src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}

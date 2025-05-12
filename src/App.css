@@ -478,13 +478,16 @@ object-fit: cover;
     background-color: #222222;
     padding: 10px;
   }
-  .created-lists{
+  .created-lists {
     display: flex;
     border: 5px solid #505050;
     border-style: double;
     box-shadow: 0;
     text-align: center;
     cursor: pointer;
+    position: relative; /* <-- Important for absolute child positioning */
+    flex-direction: column;
+    align-items: center;
   }
   .created-lists:hover .list-thumbnail{
     opacity: 0.5;
@@ -493,23 +496,23 @@ object-fit: cover;
   .created-lists:hover .list-details{
     opacity: 1;
   }
-  .list-thumbnail{
+  .list-thumbnail {
     width: 150px;
     height: 150px;
     opacity: 1;
     transition: .5s ease;
- 
   }
-  .list-details{
+  .list-details {
     position: absolute;
-    top: 89.5%;
-    width: 150px;
+    bottom: 0; /* now it appears at the bottom of the thumbnail */
+    width: 100%;
     background-color: #505050;
     font-size: 15px;
     text-align: center;
     opacity: 0;
     transition: .5s ease;
-    
+    color: white;
+    padding: 5px 0;
   }
   
   .profile-activity{
@@ -919,6 +922,10 @@ color: white;
 font-weight: bold;
 z-index: 9999; /* Ensure it's on top */
 pointer-events: none; /* Prevent flicker on hover */
+}
+.movie-poster{
+  height:360px;
+  width:240px;
 }
 /* end movie stuff */
 

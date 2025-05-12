@@ -52,6 +52,7 @@ function App() {
         <Route path="/books" element={<Books query={query} setQuery={setQuery} books={books} setBooks={setBooks} />} />
         <Route path="/movies" element={<Movies query={query} setQuery={setQuery} />} />
         <Route path="/games" element={<Games />} />
+        <Route path="/game/:id" element={<GameDetailsPage />} />
         <Route path="/bugreport" element={<BugReport />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/register" element={<Register />} />

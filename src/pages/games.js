@@ -73,7 +73,7 @@ export const useGamesData = () => {
   return { gamesByGenre, isLoading };
 };
 
-function Games() {
+function Games(query,setQuery) {
   const [gamesByGenre, setGamesByGenre] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [selectedGameId, setSelectedGameId] = useState(null);
@@ -231,7 +231,7 @@ function Games() {
       zIndex: 9999, // Ensure it appears above all other elements
       pointerEvents: "auto", // Allow interaction with the hover box
     }}
-    onClick={() => setSelectedGameId(null)} // Close the hover box when clicking outside
+    onClick={() => setSelectedGameId(null)} // Close the hover box when clicking outside {onClick={() => navigate(`/game/${game.id}`)}
   >
     <div
       className="hover-box"
