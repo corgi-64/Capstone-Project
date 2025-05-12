@@ -71,7 +71,7 @@ const MovieDetailsPage = () => {
 
     return (
         
-        <div style={{ color: "white" }}>
+        <div style={{ color: "white",paddingTop:'25px',margin:'20px' }}>
             <h1>{movie.title}</h1>
             <img
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}

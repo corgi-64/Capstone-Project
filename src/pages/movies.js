@@ -175,25 +175,31 @@ useEffect(() => {
 
       {query && searchResults.length > 0 && (
   <div className="search-results">
-    <h2>Search Results</h2>
-    <div className="search-results-grid" style={{ display: 'flex', flexWrap: 'wrap',gap:'20px',justifyContent:'center'}}>
+    <div className="search-results-grid" style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'center',marginBottom:'50px' }}>
       {searchResults.map(movie => (
-        <div
-          key={movie.id}
-          className="movie-poster" 
-          onClick={() => navigate(`/movie/${movie.id}`)}
-        >
-          <img
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-            alt={movie.title}
+        movie.poster_path && ( // Only render if poster_path exists
+          <div
+            key={movie.id}
             className="movie-poster"
-          />
-          <p style={{ color: "white" }}>{movie.title}</p>
-        </div>
+            onClick={() => navigate(`/movie/${movie.id}`)}
+            style={{
+              cursor: 'pointer'
+            }}
+          >
+            <img
+              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+              alt={movie.title}
+              className="movie-poster"
+              
+            />
+            <p style={{ color: "white" }}>{movie.title}</p>
+          </div>
+        )
       ))}
     </div>
   </div>
 )}
+
 
 
 

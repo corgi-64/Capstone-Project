@@ -57,7 +57,16 @@ to {
   transform: rotate(360deg);
 }
 }
-
+.whole-bar{
+  position: fixed;  /* Keeps the element fixed to the viewport */
+  top: 0;           /* Adjust top position */
+  left: 0;          /* Adjust left position */
+  width: 100%;      /* Adjust width as needed */
+  z-index: 1000;    /* Ensures it's on top of other content */
+  background-color: #333;  /* Adds background color to ensure visibility */
+  color: white;          /* Text color */
+  padding: 10px 0;
+}
 .top-bar {
 background-color: #222222;
 height: 60px;
@@ -618,7 +627,6 @@ object-fit: cover;
     justify-content: flex-start;
     align-items: center;
     flex-wrap: nowrap;
-    border-bottom: solid #505050;
     position: absolute;
     top: 325px;
   }

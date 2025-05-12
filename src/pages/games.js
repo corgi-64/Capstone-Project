@@ -172,6 +172,7 @@ function Games(query,setQuery) {
         <h1>Games</h1>
       </div>
 
+
       {isLoading ? (
         <p>Loading...</p>
       ) : (
