@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs') // hash passwords
 const jwt = require('jsonwebtoken') // follows the user for the session
 const multer = require('multer');
 const bugReportController = require('./controllers/bugReportController');
-const registerController= require('./controllers/registerController')
+const createToken = require('./createToken');
 
 // *** UserRoutes file
 const users = require("./userRoutes")
@@ -101,12 +101,57 @@ app.post('/login', async (req, res) => {
         if(!isPasswordValid) {
             return res.status(401).json({ error: 'Invalid credentials' })
         }
-        const token = jwt.sign({ userId: user._id }, SECRET_KEY, { expiresIn: '1hr' }) // When using json web token for user authentication it has to have a secret key
-        res.json({ message: 'Login successful' })
+
+        //create user token
+        const tokenData = {userId: user._id, email: user.email};
+        const token = await createToken(tokenData);
+
+        //attach token to user object
+        user.token = token;
+
+        res.json(user);
+
     } catch (error) {
         res.status(500).json({ error: 'Error logging in' })
     }
 })
+
+//Follow user and update followers 
+app.post('/follow/:id', (req, res) => {
+    User.findById(req.params.id, (err, user) => {
+        if (err) {
+        res.send(err);
+        } else {
+            user.followers.push(req.user._id);
+            user.save((err) => {
+                if (err) {
+                     res.send(err);
+                } else {
+                    res.json({ message: 'Followed user successfully' });
+                }
+            });
+        }
+    });
+});
+
+//Unfollow user and update their followers
+app.post('/unfollow/:id', (req, res) => {
+    User.findById(req.params.id, (err, user) => {
+        if (err) {
+            res.send(err);
+        } else {
+            user.followers.pull(req.user._id);
+            user.save((err) => {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.json({ message: 'Unfollowed user successfully' });
+                }
+            });
+        }
+    });
+});
+
 
 // Multer setup for file uploads
 const storage = multer.memoryStorage();

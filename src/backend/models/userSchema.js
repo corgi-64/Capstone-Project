@@ -16,7 +16,19 @@ const userSchema = new mongoose.Schema({
         type: String,
       
       //  minlength: [8, 'Password must be 8 characters long']
-    }
+    },
+    token: {
+        type: String,
+        
+    },
+    followers: [{
+        type: Schema.Types.ObjectId,
+        ref: 'users'
+    }],
+    following: [{
+        type: Schema.Types.ObjectId,
+        ref: 'users'
+    }]
  })
 
  const User = mongoose.model('User', userSchema)    // User represents the whole schema now
