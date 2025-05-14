@@ -11,6 +11,7 @@ exports.uploadImages = upload.fields(
    
   { name: "profile_picture", maxCount: 1 },
   { name: "banner_image", maxCount: 1 },
+  { name: 'displayboard', maxCount: 3},
 ]);
 
 exports.UserProfileAdd = async (req, res) => {
@@ -41,6 +42,23 @@ exports.UserProfileAdd = async (req, res) => {
       const bannerContentType = req.files["banner_image"][0].mimetype;
       // Replace the old banner_image with the new one
       user.banner_image = { data: bannerBuffer, contentType: bannerContentType };
+    }
+
+    if (req.body.left_displayboard != '[]') {
+      const leftDisplay = JSON.parse(req.body.left_displayboard);
+      console.log(leftDisplay)
+      user.displayboard[0] = { boardID: leftDisplay.boardID, media: leftDisplay.media, title: leftDisplay.title, thumbnail: leftDisplay.thumbnail, id: leftDisplay.id };
+    }
+    if (req.body.middle_displayboard != '[]') {
+      console.log(req.body.middle_displayboard)
+      const middleDisplay = JSON.parse(req.body.middle_displayboard);
+      console.log(middleDisplay)
+      user.displayboard[1] = { boardID: middleDisplay.boardID, media: middleDisplay.media, title: middleDisplay.title, thumbnail: middleDisplay.thumbnail, id: middleDisplay.id };
+    }
+    if (req.body.right_displayboard != '[]') {
+      const rightDisplay = JSON.parse(req.body.right_displayboard);
+      console.log(rightDisplay)
+      user.displayboard[2] = { boardID: rightDisplay.boardID, media: rightDisplay.media, title: rightDisplay.title, thumbnail: rightDisplay.thumbnail, id: rightDisplay.id };
     }
   
     // Save the updated user document
@@ -111,6 +129,28 @@ exports.userBannerGet = async (req, res) => {
     }
 };
 
+exports.userDisplayboardGet = async (req,res) => {
+  console.log("diss")
+  const userId = req.params.userId;
+  console.log("test display")
+  try {
+    const user = await User.findById(userId); // Using async/await to get the user
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (user.displayboard) {
+      // Only proceed if display exist
+      res.json({data: user.displayboard})
+    } else {
+      // If display is not found or has no data
+      res.status(404).json({ message: "Display not found" })
+    }
+  } catch (error) {
+    console.error("Error fetching user display: ", error);
+    res.status(500).json({ message: "Error fetching user display" })
+  }
+}
 
 exports.userNameGet = async (req, res) => {
   console.log("name")
@@ -129,7 +169,7 @@ exports.userNameGet = async (req, res) => {
           // Only proceed if name exists
           res.json({ data: user.username });
       } else {
-          // If banner image is not found or has no data
+          // If name is not found or has no data
           res.status(404).json({ message: "Name not found" });
       }
   } catch (error) {

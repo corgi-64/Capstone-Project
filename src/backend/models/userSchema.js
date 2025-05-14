@@ -48,8 +48,24 @@ const userSchema = new mongoose.Schema({
                 thumbnail: { type: String }, // Optional description
                 id:{type:Number}
                 // Add any other fields you need for each book
-            }]
-        
+            }],
+            displayboard: [
+              {
+                boardID: {type: Number}, //Which display is being stored (1=Left, 3=Right)
+                media: {type: String}, //type of media being stored
+                title: {type: String}, //item title
+                thumbnail: {type: String}, //item thumbnail
+                id: {}
+              }
+            ],
+        timeline: [
+          {
+            media: {type: String}, //type of media being stored
+            date: {type: Date}, //date user added item
+            title: {type: String}, //item title
+            thumbnail: {type: String}, //item thumbnail
+            id: {type: Number}
+          }]
           })
 
 

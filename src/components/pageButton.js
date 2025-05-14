@@ -1,7 +1,8 @@
 import React from "react";
+//import { Chrono } from "react-chrono"
 import Button from "@mui/material/Button";
 import { useState, useEffect } from 'react';
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import '../App.css'
 import avatar from "../assets/images/user-avatar.png"
 import { userActivity } from "./userActivityData";
@@ -29,13 +30,15 @@ export default function PageButton(){
     }
     const testActivity = userActivity;
     let activity = userActivity[index];*/
+    const [userBooks, setUserBooks] = useState([]);
+    const [userMovies, setUserMovies] = useState([]);
     const [userProfilePic, setProfilePic] = useState(localStorage.getItem('avatar'));
     const [username, setUsername] = useState(localStorage.getItem("username"));
-    const alpaca = useParams().id
+    const usersID = useParams().id
 
     useEffect(() => {
         async function grabUserName() {
-          const res = await axios.get(`http://localhost:3003/user/username/${alpaca}`)
+          const res = await axios.get(`http://localhost:3003/user/username/${usersID}`)
           console.log(res.data.data)
           if (res.status === 200) {
             setUsername(res.data.data)
@@ -49,7 +52,7 @@ export default function PageButton(){
     async function fetchProfilePicture() {
       try {
         
-        const pictureRes = await fetch(`http://localhost:3003/user/profile-picture/${alpaca}`); // updates bannere
+        const pictureRes = await fetch(`http://localhost:3003/user/profile-picture/${usersID}`); // updates bannere
         //console.log(bannerRes)
         if (pictureRes.ok) {
           const pictureData = await pictureRes.json();
@@ -77,12 +80,40 @@ export default function PageButton(){
       }
     }
   
-    if (username && alpaca) {
+    if (username && usersID) {
       fetchProfilePicture();
     } else {
       setProfilePic(avatar); // fallback to default
     }
-  }, [username, alpaca]);
+  }, [username, usersID]);
+
+  useEffect(() => {
+      const fetchBooks = async () => {
+        try {
+          const response = await fetch(`http://localhost:3003/${username}/books`);
+          const data = await response.json();
+          setUserBooks(data);
+        } catch (error) {
+          console.error("Error fetching books:", error);
+        }
+      };
+  
+      if (username) fetchBooks();
+    }, [username]);
+
+  useEffect(() => {
+      const fetchMovies = async () => {
+        try {
+          const response = await fetch(`http://localhost:3003/${username}/movies`);
+          const data = await response.json();
+          setUserMovies(data);
+        } catch (error) {
+          console.error("Error fetching books:", error);
+        }
+      };
+  
+      if (username) fetchMovies();
+    }, [username]);
   
 
     function formatTitle(entry){
@@ -166,11 +197,56 @@ export default function PageButton(){
             </div>
         </div>*/}
         <div>
-            {userActivity.map(timestamp => (
-                <li className="timeline-design" key={userActivity.entryNo}>
-                        {DisplayActivity(timestamp.entryNo)}
-                </li>
-            ))}
+            {userBooks.length > 0 ? (
+                userBooks.map((book, index) => (
+                    <Link
+                        key={book.id || index}
+                        to={`/book/${book.id}`}
+                    >
+                        <div className="timeline-design">
+                            <div className="user-activity">
+                                {/*<div className="user-activity-icon">
+                                    <img src={userProfilePic|| "https://avatars.githubusercontent.com/u/19550456"} height={50} width={50} style={{borderRadius: "50%",}}/>
+                                </div>*/}
+                                <div className="user-activity-name">
+                                    <p>{username}</p>
+                                </div>
+                                <div className="user-activity-log">
+                                    <p>started reading <i>{book.title}</i></p>
+                                </div>
+                            </div>
+                        </div>
+                    </Link>
+                ))
+            ) : <div>
+                <p>nothing</p>
+                </div>
+                }
+            {userMovies.length > 0 ? (
+                userMovies.map((movie, index) => (
+                    <Link
+                        key={movie.id || index}
+                        to={`/movie/${movie.id}`}
+                    >
+                        <div className="timeline-design">
+                            <div className="user-activity">
+                                {/*<div className="user-activity-icon">
+                                    <img src={userProfilePic|| "https://avatars.githubusercontent.com/u/19550456"} height={50} width={50} style={{borderRadius: "50%",}}/>
+                                </div>*/}
+                                <div className="user-activity-name">
+                                    <p>{username}</p>
+                                </div>
+                                <div className="user-activity-log">
+                                    <p>started watching <i>{movie.title}</i></p>
+                                </div>
+                            </div>
+                        </div>
+                    </Link>
+                ))
+            ) : <div>
+                <p>No further activity</p>
+                </div>
+                }
         </div>
     </div>
     );

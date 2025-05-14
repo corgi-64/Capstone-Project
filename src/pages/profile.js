@@ -40,15 +40,16 @@ function Profile({ books,setBooks,maxResults=3}) {
   const defaultBanner = banner; // imported banner ima
   const [userBooks, setUserBooks] = useState([]);
   const [userMovies, setUserMovies] = useState([]);
+  const [userDisplays, setUserDisplays] = useState(localStorage.getItem('displayboard'));
   const [userProfilePic, setProfilePic] = useState(localStorage.getItem('avatar'));
   const [userBanner, setBanner] = useState(localStorage.getItem('banner'));
   const [username, setUsername] = useState(localStorage.getItem("username"));
   const userId = localStorage.getItem("userId"); // instead of "username"
-  const alpaca = useParams().id
+  const pagesUserId = useParams().id
 
   useEffect(() => {
     async function grabUserName() {
-      const res = await axios.get(`http://localhost:3003/user/username/${alpaca}`)
+      const res = await axios.get(`http://localhost:3003/user/username/${pagesUserId}`)
       console.log(res.data.data)
       if (res.status === 200) {
         setUsername(res.data.data)
@@ -66,7 +67,7 @@ function Profile({ books,setBooks,maxResults=3}) {
     async function fetchBannerImage() {
       try {
         
-        const bannerRes = await fetch(`http://localhost:3003/user/profile-banner/${alpaca}`); // updates bannere
+        const bannerRes = await fetch(`http://localhost:3003/user/profile-banner/${pagesUserId}`); // updates bannere
         //console.log(bannerRes)
         if (bannerRes.ok) {
           const bannerData = await bannerRes.json();
@@ -94,19 +95,19 @@ function Profile({ books,setBooks,maxResults=3}) {
       }
     }
   
-    if (username && alpaca) {
+    if (username && pagesUserId) {
       fetchBannerImage();
     } else {
       setBanner(banner); // fallback to default
     }
-  }, [username, alpaca]);
+  }, [username, pagesUserId]);
   
 
   useEffect(() => {
     async function fetchProfilePicture() {
       try {
         
-        const pictureRes = await fetch(`http://localhost:3003/user/profile-picture/${alpaca}`); // updates bannere
+        const pictureRes = await fetch(`http://localhost:3003/user/profile-picture/${pagesUserId}`); // updates bannere
         //console.log(bannerRes)
         if (pictureRes.ok) {
           const pictureData = await pictureRes.json();
@@ -134,14 +135,31 @@ function Profile({ books,setBooks,maxResults=3}) {
       }
     }
   
-    if (username && alpaca) {
+    if (username && pagesUserId) {
       fetchProfilePicture();
     } else {
       setProfilePic(avatar); // fallback to default
     }
-  }, [username, alpaca]);
+  }, [username, pagesUserId]);
 
-  
+  useEffect(() => {
+    async function fetchDisplays() {
+      try {
+        const response = await fetch(`http://localhost:3003/user/display/${pagesUserId}`);
+        const data = await response.json();
+
+        setUserDisplays(data.data);
+        localStorage.setItem("displayboard", JSON.stringify(data.data))
+        console.log(JSON.stringify(userDisplays))
+      } catch (error) {
+        console.error("Error fetching displays:", error);
+      }
+    };
+
+    if (username && pagesUserId) {
+      fetchDisplays();
+    }
+  }, [username, pagesUserId]);
 
 
   useEffect(() => {
@@ -242,9 +260,9 @@ function Profile({ books,setBooks,maxResults=3}) {
             </div>
       {IsVisitor()}
         <div className="profile-displayboard-container">
-          <div className="profile-displayboard"><img src={testimg} height='100%' width='100%' style={{borderRadius: "10%",}}></img></div>
-          <div className="profile-displayboard"></div>
-          <div className="profile-displayboard"></div>
+          <div className="profile-displayboard"><img src={userDisplays[0].thumbnail} height='100%' width='100%' style={{borderRadius: "10%",}}></img></div>
+          <div className="profile-displayboard"><img src={userDisplays[1].thumbnail} height='100%' width='100%' style={{borderRadius: "10%",}}></img></div>
+          <div className="profile-displayboard"><img src={userDisplays[2].thumbnail} height='100%' width='100%' style={{borderRadius: "10%",}}></img></div>
         </div>
     </div>
     <div className="profile-content">

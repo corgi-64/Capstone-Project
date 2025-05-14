@@ -8,6 +8,10 @@ import avatar from "../assets/images/user-avatar.png"; // Default avatar image
 function EditPage() {
     const [userBooks, setUserBooks] = useState([]);
     const [userMovies, setUserMovies] = useState([]);
+    let userDisplay = ["", "", ""]
+    const [leftDisplayPreview, setLeftDisplayPreview] = useState(JSON.parse(localStorage.getItem('displayboard'))[0])
+    const [middleDisplayPreview, setMiddleDisplayPreview] = useState(JSON.parse(localStorage.getItem('displayboard'))[1])
+    const [rightDisplayPreview, setRightDisplayPreview] = useState(JSON.parse(localStorage.getItem('displayboard'))[2])
     const [userBanner, setBanner] = useState(banner); // Default banner set here
     const [bannerPreview, setBannerPreview] = useState(localStorage.getItem('banner'));
     const [userProfilePic, setProfilePic] = useState(avatar); // Default profile picture
@@ -48,6 +52,9 @@ useEffect(() => {
         formData.append('profile_picture', userProfilePic);  // If using base64, you can send it directly
         //const [avatar, setAvatar] = useState(localStorage.getItem('avatar') || usericon);
         formData.append('banner_image', userBanner);  // Same for the banner
+        formData.append('left_displayboard', JSON.stringify(leftDisplayPreview));
+        formData.append('middle_displayboard', JSON.stringify(middleDisplayPreview));
+        formData.append('right_displayboard', JSON.stringify(rightDisplayPreview));
         formData.append('userId', userId);
 
       //  console.log(userBanner,"user banner");
@@ -94,6 +101,50 @@ useEffect(() => {
         }
     }
 
+    function handleDisplayBooksUpload(board, index){
+        const bookData = {
+            boardID: board,
+            media: "Book",
+            title: userBooks[index].title,
+            thumbnail: userBooks[index].thumbnail,
+            id: userBooks[index].id
+        }
+         if(board === 1){
+            userDisplay[0] = bookData
+            setLeftDisplayPreview(bookData)
+        }else if(board === 2){
+            userDisplay[1] = bookData
+            setMiddleDisplayPreview(bookData)
+        }else{
+            userDisplay[2] = bookData
+            setRightDisplayPreview(bookData)
+        }
+        //setDisplayPreview(userDisplay)
+        //console.log(displayPreview)
+    }
+
+    function handleDisplayMoviesUpload(board, index){
+        const movieData = {
+            boardID: board,
+            media: "Movie",
+            title: userMovies[index].title,
+            thumbnail: userMovies[index].thumbnail,
+            id: userMovies[index].id
+        }
+        if(board === 1){
+            userDisplay[0] = movieData
+            setLeftDisplayPreview(movieData)
+        }else if(board === 2){
+            userDisplay[1] = movieData
+            setMiddleDisplayPreview(movieData)
+        }else{
+            userDisplay[2] = movieData
+            setRightDisplayPreview(movieData)
+        }
+        //setDisplayPreview(userDisplay)
+        //console.log(displayPreview)
+    }
+
     return (
         <div className="edit-page-content">
             <div className="edit-incoming">
@@ -118,15 +169,44 @@ useEffect(() => {
                     <div className="dropdown-container">
                         <Button className="dropdown-custom">Left Display</Button>
                         <div className="dropdown-custom-content">
-                            <a>Favorites</a>
-                            <a>{userBooks.title}</a>
+                            <a>Favorite Books</a>
+                            {userBooks.length > 0 ? (
+                            userBooks.map((book, index) => (
+                                <a onClick={() => handleDisplayBooksUpload(1, index)}>{book.title}</a>
+                            ))
+                            ) : 
+                                    <a>No books favorited</a>
+                            }
+                            <a>Favorite Movies</a>
+                            {userMovies.length > 0 ? (
+                            userMovies.map((movie, index) => (
+                                <a onClick={() => handleDisplayMoviesUpload(1, index)}>{movie.title}</a>
+                            ))
+                            ) : 
+                                    <a>No movies favorited</a>
+                            }
                         </div>
                     </div>
                    
                     <div className="dropdown-container">
                         <Button className="dropdown-custom">Middle Display</Button>
                         <div className="dropdown-custom-content">
-                            <a>Favorites</a>
+                            <a>Favorite Books</a>
+                            {userBooks.length > 0 ? (
+                            userBooks.map((book, index) => (
+                                <a onClick={() => handleDisplayBooksUpload(2, index)}>{book.title}</a>
+                            ))
+                            ) : 
+                                    <a>No books favorited</a>
+                            }
+                            <a>Favorite Movies</a>
+                            {userMovies.length > 0 ? (
+                            userMovies.map((movie, index) => (
+                                <a onClick={() => handleDisplayMoviesUpload(2, index)}>{movie.title}</a>
+                            ))
+                            ) : 
+                                    <a>No movies favorited</a>
+                            }
                         </div>
                     </div>
 
@@ -134,7 +214,22 @@ useEffect(() => {
                     <div className="dropdown-container">
                         <Button className="dropdown-custom">Right Display</Button>
                         <div className="dropdown-custom-content">
-                            <a>Favorites</a>
+                            <a>Favorite Books</a>
+                            {userBooks.length > 0 ? (
+                            userBooks.map((book, index) => (
+                                <a onClick={() => handleDisplayBooksUpload(3, index)}>{book.title}</a>
+                            ))
+                            ) : 
+                                    <a>No books favorited</a>
+                            }
+                            <a>Favorite Movies</a>
+                            {userMovies.length > 0 ? (
+                            userMovies.map((movie, index) => (
+                                <a onClick={() => handleDisplayMoviesUpload(3, index)}>{movie.title}</a>
+                            ))
+                            ) : 
+                                    <a>No movies favorited</a>
+                            }
                         </div>
                     </div>
                     
@@ -153,9 +248,26 @@ useEffect(() => {
                     <VisuallyHiddenInput type="file" accept="image/*" onChange={handleBannerUpload} />
                 </div>
                 <div className="profile-displayboard-container" style={{ paddingTop: "100px", paddingBottom: "60px" }}>
-                    <div className="profile-displayboard"></div>
-                    <div className="profile-displayboard"></div>
-                    <div className="profile-displayboard"></div>
+                    <div className="profile-displayboard">
+                        <img src={leftDisplayPreview.thumbnail} height='100%' width='100%' style={{borderRadius: "10%",}}></img>
+                    </div>
+                    <div className="profile-displayboard">
+                        <img src={middleDisplayPreview.thumbnail} height='100%' width='100%' style={{borderRadius: "10%",}}></img>
+                    </div>
+                    <div className="profile-displayboard">
+                        <img src={rightDisplayPreview.thumbnail} height='100%' width='100%' style={{borderRadius: "10%",}}></img>
+                    </div>
+                    {/*displayPreview.length > 0 ? (
+                    displayPreview.map((display, index) => (
+                        <div className="profile-displayboard">
+                            <img src={display.thumbnail} height='100%' width='100%' style={{borderRadius: "10%",}}></img>
+                        </div>
+                    ))
+                    ) : (
+                        <p>No books added yet.</p>
+                    )*/}
+                    {/*<h1>{JSON.stringify(userDisplay)}</h1>
+                    <h1>{JSON.stringify(displayPreview)}</h1>*/}
                 </div>
             </div>
         </div>
