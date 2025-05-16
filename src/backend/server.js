@@ -129,7 +129,8 @@ app.post('/signin', async (req, res) => {
         const token = jwt.sign({ userId: user._id }, SECRET_KEY, { expiresIn: '1hr' }) // When using json web token for user authentication it has to have a secret key
         res.json({ message: 'Login successful',
                     userId:user.id,
-                    name:user.name
+                    name:user.name,
+                    token
       
       
       })
