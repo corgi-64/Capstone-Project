@@ -10,7 +10,7 @@ const bugReportController = require('./controllers/bugReportController');
 const BookController= require('./controllers/BookController')
 const UserController = require('./controllers/UserController')
 const MovieController=require('./controllers/MovieController')
-const User = require('./models/userSchema')  // to use userschema
+const User = require('../models/userSchema')  // to use userschema
 
 // *** UserRoutes file
 const users = require("./userRoutes")
