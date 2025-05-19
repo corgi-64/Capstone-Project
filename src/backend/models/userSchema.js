@@ -85,6 +85,14 @@ const userSchema = new mongoose.Schema({
                 id:{type:Number}
                 // Add any other fields you need for each game
             }],
+    followers: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }],
+    following: [{ 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'User' 
+    }]
 });
 
 // Force lowercase for username and email before saving
