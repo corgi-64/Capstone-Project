@@ -57,22 +57,14 @@ const userSchema = new mongoose.Schema({
                 period: { type: String, default: null },
                 try_new: { type: String, default: null },
               },
-    followers: {
+    followers: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User'
-    },
-    following: { 
+    }],
+    following: [{ 
       type: mongoose.Schema.Types.ObjectId, 
       ref: 'User' 
-    },
-    activityTimeline: {
-      type: {
-        type: String // 'follow'
-      },
-      action: String, // 'followed'
-      referenceId: String, //Id of user
-      timestamp: { type: Date, default: Date.now} //timestamp
-    }
+    }]
 });
 
  const User = mongoose.models.User || mongoose.model('User', userSchema);
