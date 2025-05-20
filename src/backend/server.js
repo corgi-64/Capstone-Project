@@ -12,6 +12,7 @@ const UserController = require('./controllers/UserController')
 const MovieController=require('./controllers/MovieController')
 const GameController=require('./controllers/GameController')
 const User = require('./models/userSchema')  // to use userschema
+const followerRoutes = require('./followerRoutes');
 
 // *** UserRoutes file
 const users = require("./userRoutes")
@@ -237,6 +238,11 @@ app.patch('/users/:id/survey-completed', async (req, res) => {
     res.status(500).json({ error: "Failed to mark survey as completed" });
   }
 });
+
+
+// User Follower Routes
+app.use(followerRoutes);
+
 
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
