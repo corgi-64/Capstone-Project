@@ -9,13 +9,15 @@ const UsersPage = () => {
 
   useEffect(() => {
     const fetchFollowing = async () => {
-      try {
-        const res = await axios.get(`http://localhost:3003/user/following/${currentUserId}`);
-        setFollowingIds(res.data.following);
-      } catch (err) {
-        console.error("Error fetching following list:", err);
-      }
-    };
+    try {
+      const res = await axios.get(`http://localhost:3003/user/${currentUserId}/following`);
+      const ids = res.data.map(user => user._id); // ← Extract just IDs
+      setFollowingIds(ids);
+      console.log("Following IDs:", ids); // optional debug
+    } catch (err) {
+    console.error("Error fetching following list:", err);
+    }
+  };
 
     if (currentUserId) fetchFollowing();
   }, [currentUserId]);
@@ -93,7 +95,9 @@ const UsersPage = () => {
               borderRadius: "8px",
               marginTop: "10px"
             }}>
-              <span style={{ fontWeight: "bold" }}>{user.username}</span>
+              
+            <span style={{ fontWeight: "bold" }}>{user.username}</span>
+
               {user._id !== currentUserId && (
                 <button
                   onClick={() => toggleFollow(user._id)}
