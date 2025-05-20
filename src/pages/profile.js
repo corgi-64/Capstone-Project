@@ -277,8 +277,8 @@ function IsVisitor(){
             <h1>Books</h1>
             <h1>Movies</h1>
             <h1>Games</h1>
-            <h1>Followers</h1>
-            <h1>Following</h1>
+            <h1><Link to={`/followers/${pagesUserId}`} style={{color: "darkorchid"}}>Followers</Link></h1>
+            <h1><Link to={`/following/${pagesUserId}`} style={{color: "darkorchid"}}>Following</Link></h1>
           </div>
           <div className="amount-read">
             <h1>{userBooks.length}</h1>
@@ -309,7 +309,6 @@ function IsVisitor(){
         <div className="profile-summary">
                 <div className="profile-name">
                     <h1>{username}</h1>
-                    <a>2</a><Link to={`/following/${pagesUserId}`}><b> following </b></Link><a> * 6 </a><b><Link to={`/followers/${pagesUserId}`}>followers</Link></b>
                 </div>
             </div>
       {IsVisitor()}

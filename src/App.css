@@ -574,6 +574,7 @@ object-fit: cover;
     margin-top: 100px;
     margin-right: 10px;
     background-color: #222222;
+    z-index: 100;
     position: relative;
   }
   .media-type{
@@ -619,7 +620,7 @@ object-fit: cover;
     border-bottom: solid #505050;
     position: absolute;
     top: 373px;
-    padding-bottom: 58px;
+    padding-bottom: 77px;
   }
   .profile-summary{
     display: flex;
