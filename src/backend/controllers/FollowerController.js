@@ -42,6 +42,36 @@ exports.followUser = async (req, res) => {
   }
 };
 
+exports.unfollowUser = async (req, res) => {
+  try {
+    const { currentUserId } = req.body;
+    const { targetUserId } = req.params;
+
+    const currentUser = await User.findById(currentUserId);
+    const targetUser = await User.findById(targetUserId);
+
+    if (!currentUser || !targetUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Check if the user is not following
+    if (!targetUser.followers.includes(currentUserId)) {
+      return res.status(400).json({ error: 'You are not following this user' });
+    }
+
+    // Remove follower
+    targetUser.followers.pull(currentUserId);
+    currentUser.following.pull(targetUserId);
+
+    await targetUser.save();
+    await currentUser.save();
+
+    res.status(200).json({ message: 'Unfollowed successfully' });
+  } catch (err) {
+    console.error("UNFOLLOW ERROR:", err);
+    res.status(500).json({ error: 'Server error while unfollowing user' });
+  }
+};
 
 exports.getTimeline = async (req, res) => {
   try {

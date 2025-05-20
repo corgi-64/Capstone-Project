@@ -30,7 +30,7 @@ import avatar from "../assets/images/user-avatar.png"
 import testimg from "../assets/movies_posters/28 Days Later (2002).png"
 import ProfilePictureUploader from "../components/profileIcon";
 import BannerUploader from "../components/banner";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams} from "react-router-dom";
 import axios from "axios";
 
 
@@ -40,12 +40,15 @@ function Profile({ books,setBooks,maxResults=3}) {
   const [userBooks, setUserBooks] = useState([]);
   const [userMovies, setUserMovies] = useState([]);
   const [userGames, setUserGames] = useState([]);
+  const [followersCount, setFollowersCount] = useState(0);
+  const [followingCount, setFollowingCount] = useState(0);
   const [userDisplays, setUserDisplays] = useState([]);
   const [userProfilePic, setProfilePic] = useState(localStorage.getItem('avatar'));
   const [userBanner, setBanner] = useState(localStorage.getItem('banner'));
   const [username, setUsername] = useState(localStorage.getItem("username"));
   const userId = localStorage.getItem("userId"); // instead of "username"
-  const pagesUserId = useParams().id
+  const { id } = useParams();
+  const pagesUserId = id || localStorage.getItem("userId");
 
 useEffect(() => {
     async function grabUserName() {
@@ -203,7 +206,6 @@ useEffect(() => {
   //console.log(username)
 
 
-
   useEffect(() => {
     const fetchMovies = async () => {
       try {
@@ -235,7 +237,29 @@ useEffect(() => {
     if (username) fetchGames();
   }, [username]);
 
+  useEffect(() => {
+  const fetchFollowStats = async () => {
+    try {
+      const res = await axios.get(`http://localhost:3003/user/follow-stats/${pagesUserId}`);
+      setFollowersCount(res.data.followersCount);
+      setFollowingCount(res.data.followingCount);
+    } catch (error) {
+      console.error("Error fetching follow stats:", error);
+    }
+  };
 
+  fetchFollowStats(); // initial fetch
+
+  // Watch localStorage for follow change flag
+  const interval = setInterval(() => {
+    if (localStorage.getItem("followChanged") === "true") {
+      fetchFollowStats();
+      localStorage.removeItem("followChanged"); // clear flag
+    }
+  }, 1000); // check every 1 second
+
+  return () => clearInterval(interval);
+  }, [pagesUserId]);
 
 function IsVisitor(){
     let params = useParams()
@@ -266,14 +290,34 @@ function IsVisitor(){
             <h1>Books</h1>
             <h1>Movies</h1>
             <h1>Games</h1>
+            <h1>Followers</h1>
+            <h1>Following</h1>
           </div>
           <div className="amount-read">
             <h1>{userBooks.length}</h1>
             <h1>{userMovies.length}</h1>
             <h1>{userGames.length}</h1>
+            <h1> {followersCount}</h1>
+            <h1> {followingCount}</h1>
           </div>
         </div>
       </div>
+      <div style={{ marginTop: "15px", textAlign: "right" }}>
+        <Link
+          to="/users"
+          style={{
+          display: "inline-block",
+          padding: "9px 9px",
+          backgroundColor: "#3F2A52",
+          color: "white",
+          borderRadius: "6px",
+          textDecoration: "none",
+          fontWeight: "bold"
+          }}
+        >
+          Find Users to Follow
+        </Link>
+</div>
     <div className="profile-details">
         <div className="edit-button-container">
                 <div className="profile-name">
