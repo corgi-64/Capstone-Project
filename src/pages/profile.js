@@ -309,7 +309,7 @@ function IsVisitor(){
         <div className="profile-summary">
                 <div className="profile-name">
                     <h1>{username}</h1>
-                    <a>2</a><b> following </b><a> * 6 </a><b>followers</b>
+                    <a>2</a><Link to={`/following/${pagesUserId}`}><b> following </b></Link><a> * 6 </a><b><Link to={`/followers/${pagesUserId}`}>followers</Link></b>
                 </div>
             </div>
       {IsVisitor()}
