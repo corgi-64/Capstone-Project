@@ -217,71 +217,67 @@ function Games() {
                           )}
             {/* Render the details box if this game is selected */}
             {/* */}
-            {selectedGameId === game.id && (
+  {selectedGameId === game.id && (
   <div
-    className="hover-box-wrapper"
+    className="hover-box"
     style={{
-      position: "fixed", // Use fixed positioning
-      top: 0,
-      left: 0,
-      width: "100vw",
-      height: "100vh",
-      zIndex: 9999,
-      pointerEvents: "auto",
+      position: "absolute", // Position relative to the game poster
+      top: 0, // Align with the top of the poster
+      left: 0, // Align with the left of the poster
+      width: "120%", // Match the width of the poster
+      height: "130%", // Match the height of the poster
+      backgroundColor: "rgba(0, 0, 0, 0.9)", // Dark background for readability
+      color: "white",
+      padding: "15px",
+      borderRadius: "8px",
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)", // Slight shadow for visibility
+      zIndex: 999, // Ensure it appears above other elements
+      overflowY: "auto", // Enable scrolling if content exceeds height
     }}
-    onClick={() => setSelectedGameId(null)} // Close the hover box when clicking outside
+    onClick={(e) => e.stopPropagation()} // Prevent clicks inside the hover box from closing it
   >
-    <div
-      className="hover-box"
+    <h3
       style={{
-        ...hoverBoxStyle,
-        ...calculateHoverBoxPosition(game.id), // Adjust hover box position
+        fontSize: "18px",
+        fontWeight: "bold",
+        color: "#B200ED",
+        textShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)",
+        cursor: "pointer",
       }}
-      onClick={(e) => e.stopPropagation()} // Prevent clicks inside the hover box from closing it
+      onClick={() => navigate(`/game/${game.id}`)} // Navigate to the game details page
     >
-      <h3
-        style={{
-          fontSize: "24px",
-          fontWeight: "bold",
-          color: "#B200ED",
-          textShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)",
-          cursor: "pointer",
-        }}
-        onClick={() => navigate(`/game/${game.id}`)} // Navigate to the game details page
-      >
-        {game.name}
-      </h3>
-      <p>
-        <strong style={{ color: "#89CFF0" }}>Description:</strong>{" "}
-        {gameDetails[game.id]?.short_description || "No description available"}
-      </p>
-      <p>
-        <strong style={{ color: "#89CFF0" }}>Developer:</strong>{" "}
-        {gameDetails[game.id]?.developers?.join(", ") || "Unknown"}
-      </p>
-      <p>
-        <strong style={{ color: "#89CFF0" }}>Publisher:</strong>{" "}
-        {gameDetails[game.id]?.publishers?.join(", ") || "Unknown"}
-      </p>
-      <p>
-        <strong style={{ color: "#89CFF0" }}>Price:</strong>{" "}
-        {gameDetails[game.id]?.price_overview?.final_formatted || "Free or Unavailable"}
-      </p>
-      <p>
-        <strong style={{ color: "#89CFF0" }}>Genres:</strong>{" "}
-        {gameDetails[game.id]?.genres?.map((g) => g.name).join(", ") || "Unknown"}
-      </p>
-      <p>
-        <strong style={{ color: "#89CFF0" }}>Supported Languages:</strong>{" "}
-        {gameDetails[game.id]?.supported_languages?.join(", ") || "Unknown"}
-      </p>
-      <p>
-        <strong style={{ color: "#89CFF0" }}>Platforms: </strong>
-        {gameDetails[game.id]?.platforms?.windows && "Windows "}
-        {gameDetails[game.id]?.platforms?.mac && "Mac "}
-        {gameDetails[game.id]?.platforms?.linux && "Linux "}
-      </p>
-    </div>
+      {game.name}
+    </h3>
+    <p>
+      <strong style={{ color: "#89CFF0" }}>Description:</strong>{" "}
+      {gameDetails[game.id]?.short_description || "No description available"}
+    </p>
+    <p>
+      <strong style={{ color: "#89CFF0" }}>Developer:</strong>{" "}
+      {gameDetails[game.id]?.developers?.join(", ") || "Unknown"}
+    </p>
+    <p>
+      <strong style={{ color: "#89CFF0" }}>Publisher:</strong>{" "}
+      {gameDetails[game.id]?.publishers?.join(", ") || "Unknown"}
+    </p>
+    <p>
+      <strong style={{ color: "#89CFF0" }}>Price:</strong>{" "}
+      {gameDetails[game.id]?.price_overview?.final_formatted || "Free or Unavailable"}
+    </p>
+    <p>
+      <strong style={{ color: "#89CFF0" }}>Genres:</strong>{" "}
+      {gameDetails[game.id]?.genres?.map((g) => g.name).join(", ") || "Unknown"}
+    </p>
+    <p>
+      <strong style={{ color: "#89CFF0" }}>Supported Languages:</strong>{" "}
+      {gameDetails[game.id]?.supported_languages?.join(", ") || "Unknown"}
+    </p>
+    <p>
+      <strong style={{ color: "#89CFF0" }}>Platforms: </strong>
+      {gameDetails[game.id]?.platforms?.windows && "Windows "}
+      {gameDetails[game.id]?.platforms?.mac && "Mac "}
+      {gameDetails[game.id]?.platforms?.linux && "Linux "}
+    </p>
   </div>
 )}
                         </div>

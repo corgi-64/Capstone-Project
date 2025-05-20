@@ -41,7 +41,7 @@ function Navbar({ query, setQuery }) {
         <div className="right-links">
           <Tabs value={location.pathname === "/bugreport" ? 0 : false} textColor="inherit" TabIndicatorProps={{ style: { backgroundColor: "#000" } }}>
             <Tab label="Bug Reporting" component={Link} to="/bugreport" className="tab-link" />
-            <Tab label="Discord" component="a" href="https://discord.gg/nCGYy8HC" target="_blank" className="tab-link" />
+            <Tab label="Discord" component="a" href="https://discord.gg/tMFAWY96tr" target="_blank" className="tab-link" />
           </Tabs>
         </div>
       </div>

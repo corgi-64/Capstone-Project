@@ -862,14 +862,14 @@ overflow: visible !important; /* problem, goes outside container. if off, hover 
   overflow: visible;
   position: relative;
   z-index: 1; /* Ensure image container is on top */
-  border: 2px solid red;
+  /* border: 2px solid red; */
   }
   
   .image-container-game {
     overflow: visible;
     position: relative;
     z-index: 1; /* Ensure image container is on top */
-    border: 2px solid red;
+    /* border: 2px solid red; */
     }
   
   
