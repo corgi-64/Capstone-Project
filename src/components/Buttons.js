@@ -1,11 +1,12 @@
 import Button from "@mui/material/Button";
 import React, { useState, useEffect } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import '../App.css'
 
 function CustomButtons(){
     const [username, setUsername] = useState(localStorage.getItem('username')); // Get username from localStorage on initial load
+    const navigate = useNavigate()
 
     return (
        <div className="buttons-container">
@@ -25,6 +26,7 @@ function CustomButtons(){
                             localStorage.removeItem('displayboard');
                             
                             setUsername(null);  // Clear the username from state
+                            navigate("/signin")
                             window.location.reload();
                           
                         }}

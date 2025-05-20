@@ -261,6 +261,9 @@ width: 62px;
 height: 62px; 
 cursor: pointer; /* Makes the avatar clickable */
 }
+.avatar-centering {
+  margin-right: 20px; /* Repositions userIcon when not using Link*/
+}
 .page-content {
 position: relative;
 margin-left: 30px;
@@ -466,7 +469,7 @@ object-fit: cover;
     padding-left: 40px;
   }
   .profile-content{
-    font-size: 14px;
+    font-size: 16px;
     padding-left: 25px;
     padding-right: 25px;
     padding-bottom: 20px;
@@ -483,6 +486,7 @@ object-fit: cover;
     border: 5px solid #505050;
     border-style: double;
     box-shadow: 0;
+    align-items: flex-end;
     text-align: center;
     cursor: pointer;
   }
@@ -502,10 +506,9 @@ object-fit: cover;
   }
   .list-details{
     position: absolute;
-    top: 89.5%;
     width: 150px;
     background-color: #505050;
-    font-size: 15px;
+    font-size: 16px;
     text-align: center;
     opacity: 0;
     transition: .5s ease;
@@ -522,13 +525,13 @@ object-fit: cover;
     display: flex;
     padding-left: 20px;
     padding-top: 10px;
+    padding-bottom: 18px;
     position: relative;
     height: 45px;
   }
   .user-activity-date{
-    font-size: 15px;
+    font-size: 16px;
     width: 70px;
-    font-family: Arial;
     color: white;
     text-align: right;
     padding-left: 13px;
@@ -542,15 +545,13 @@ object-fit: cover;
   }
   .user-activity-name{
     padding-left: 10px;
-    font-size: 15px;
-    font-family: Arial;
+    font-size: 16px;
     color: darkorchid;
     position: relative;
   }
   .user-activity-log{
     padding-left: 10px;
-    font-size: 15px;
-    font-family: Arial;
+    font-size: 16px;
     color: white;
     position: relative;
   }
@@ -573,6 +574,7 @@ object-fit: cover;
     margin-top: 100px;
     margin-right: 10px;
     background-color: #222222;
+    position: relative;
   }
   .media-type{
     flex: 50%;
@@ -595,6 +597,9 @@ object-fit: cover;
     justify-content: space-evenly;
     margin-left: 30px;
     width: 500px;
+    position: absolute;
+    top: 320px;
+    left: 32%;
   }
   .profile-displayboard{
     width: 150px;
@@ -613,19 +618,29 @@ object-fit: cover;
     flex-wrap: nowrap;
     border-bottom: solid #505050;
     position: absolute;
-    top: 325px;
+    top: 373px;
+    padding-bottom: 58px;
+  }
+  .profile-summary{
+    display: flex;
+    width: 18%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
   }
   .profile-name{
-    font-size: 14px;
+    font-size: 16px;
     color: white;
     text-align: center;
   }
   .profile-name a{
-    font-size: 14px;
+    font-size: 16px;
     color: white;
+    margin-right: 0px;
   }
   .profile-name b{
-    font-size: 14px;
+    font-size: 16px;
     color: white;
   }
 /**/ 
@@ -664,6 +679,13 @@ object-fit: cover;
     width: 50vw;
     flex-direction: column;
   }
+  .edit-displayboard-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-left: 30px;
+    width: 500px;
+  }
   /*Customization Page Ends Here*/
 
   /*Extra Buttons for various uses*/
@@ -697,7 +719,7 @@ object-fit: cover;
   text-align: center;
 }
 .follow-button-contained{
-  background-color: darkorchid !important;
+  background-color: #5e3d7b !important;
   color: white !important;
   text-align: center;
 }
@@ -720,17 +742,32 @@ object-fit: cover;
 }
 .dropdown-custom-content{
   display: none;
-  background-color: #3F2A52 !important;
+  background-color: #5e3d7b !important;
   text-align: center;
   justify-content: center;
 }
 .dropdown-custom-content a{
   color: white !important;
   display: block;
-  font-size: 15px;
-  border: 1px solid #000000;
+  cursor: pointer;
+  font-size: 16px;
+  border: 1px solid #202020;
   text-align: center;
   justify-content: center;
+  margin-right: 0px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.dropdown-custom-content b{
+  color: white !important;
+  display: block;
+  font-size: 16px;
+  border: 1px solid #202020;
+  text-align: center;
+  justify-content: center;
+  margin-right: 0px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .dropdown-container:hover .dropdown-custom-content{

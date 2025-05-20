@@ -81,13 +81,13 @@ function GameDetailsPage() {
           }}
         />
       )}
-      <h1 style={{ color: "#89CFF0", textShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)" }}>
+      <h1 style={{ color: "#905ca0", textShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)" }}>
         {gameDetails.name}
       </h1>
       <ButtonGroup sx={{ mt: 2 }} >
-        <Button variant="contained" color="primary" onClick={handleWantToPlay}>Want To Play </Button> 
+        <Button variant="contained" style={{background:"#5e3d7b"}} onClick={handleWantToPlay}>Want To Play </Button> 
         <a href={gameDetails.infoLink} target="_blank" rel="noopener noreferrer">
-          <Button variant="contained" color="primary">
+          <Button variant="contained" style={{background:"#5e3d7b"}}>
             More Info
           </Button>
         </a>

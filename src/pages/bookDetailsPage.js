@@ -94,9 +94,9 @@ const BookDetails = () => {
             />
           </Card>
           <ButtonGroup sx={{ mt: 2 }} >
-            <Button variant="contained" color="primary" onClick={handleWantToRead}>Want To Read </Button> 
+            <Button variant="contained" style={{background:"#5e3d7b"}} onClick={handleWantToRead}>Want To Read </Button> 
             <a href={book.infoLink} target="_blank" rel="noopener noreferrer">
-              <Button variant="contained" color="primary">
+              <Button variant="contained" style={{background:"#5e3d7b"}}>
                 More Info
               </Button>
             </a>
@@ -104,7 +104,7 @@ const BookDetails = () => {
           </ButtonGroup>
           <Box sx={{ mt: 2, textAlign: 'center' }}>
             <Rating />
-            <Typography sx={{color:"white"}}>Rate This Book</Typography>
+            <Typography fontFamily='serif' sx={{color:"white"}}>Rate This Book</Typography>
           </Box>
         </Box>
 
@@ -112,26 +112,26 @@ const BookDetails = () => {
         <Box sx={{ mt: 2 }}>
           <Box>
 
-          <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+          <Typography variant="h5" style={{color: "#905ca0", fontFamily:'serif', fontSize:'32px', textShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)"}} sx={{ fontWeight: 'bold' }}>
             {book.title}
           </Typography>
-          <Typography variant="subtitle1" color="white" sx={{ mt: 1 ,fontWeight: 'bold',fontSize:"18px"}}>
+          <Typography variant="subtitle1" color="white" fontFamily='serif' sx={{ mt: 1 ,fontWeight: 'bold',fontSize:"18px"}}>
             {book.authors?.join(', ')}
           </Typography>
-          <Typography sx={{color:"white"}}>
+          <Typography fontFamily='serif' sx={{color:"#89CFF0"}}>
               Average Rating: {book.averageRating || 'N/A'}
           </Typography>
-          <Typography variant="body1" sx={{ mt: 2, color:"white"}} 
+          <Typography variant="body1" fontFamily='serif' sx={{ mt: 2, color:"white"}} 
               dangerouslySetInnerHTML={{ __html: book.description || 'No description available.' }}
             />
                </Box>
           <Box sx={{marginTop:"10px"}}> 
-              <Typography color={"lightblue"}>
+              <Typography color={"#89CFF0"} fontFamily='serif'>
                 Categories: {book.categories}
               </Typography>
         </Box>
         <Box>
-          <Typography color={"white"}>
+          <Typography color={"#89CFF0"} fontFamily='serif'>
               Page Count: {book.pageCount}
           </Typography>
         </Box>

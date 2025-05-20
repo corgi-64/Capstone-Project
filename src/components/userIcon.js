@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import usericon from '../assets/images/user-avatar.png';
 import '../App.css';
@@ -8,6 +8,7 @@ function UserIcon() {
     const [avatar, setAvatar] = useState(localStorage.getItem('avatar') || usericon);
     const userId = localStorage.getItem('userId');
     const username = localStorage.getItem('username');
+    const navigate = useNavigate()
    // console.log(userId);
 
     //console.log("trigger")
@@ -46,14 +47,18 @@ function UserIcon() {
         }
     }, [userId]);
 
+    function handleClick(){
+        navigate(`/profile/${userId}`)
+        window.location.reload()
+    }
 
     
     if (userId) {
     return (
         <div className="avatar-container">
-            <Link to={`/profile/${userId}`}>
+            <div className="avatar-centering" onClick={handleClick}>
                 <Avatar src={avatar} style={{ cursor: "pointer" }} />
-            </Link>
+            </div>
         </div>
     );
     } else{

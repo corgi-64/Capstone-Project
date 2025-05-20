@@ -1,25 +1,4 @@
-/*import React from "react";
-import ProfilePictureUploader from "../components/profileIcon";
-import BannerUploader from "../components/banner";
-
-
-
-function Profile() {
-  return (
-    <div className="page-content">
-      <h1>Profile Page</h1>
-      <p>This is the profile page!</p>
-
-      <BannerUploader/>
-      <ProfilePictureUploader />
-      
-    </div>
-  );
-}
-
-export default Profile;*/
 import { useEffect, useState } from "react";
-
 import React from "react";
 import "../App.css";
 import EditButton from "../components/editProfile.js";
@@ -43,16 +22,20 @@ function Profile({ books,setBooks,maxResults=3,query,setQuery}) {
   const [userDisplays, setUserDisplays] = useState([]);
   const [userProfilePic, setProfilePic] = useState(localStorage.getItem('avatar'));
   const [userBanner, setBanner] = useState(localStorage.getItem('banner'));
-  const [username, setUsername] = useState(localStorage.getItem("username"));
+  const [username, setUsername] = useState([]);
   const userId = localStorage.getItem("userId"); // instead of "username"
   const pagesUserId = useParams().id
 
 useEffect(() => {
     async function grabUserName() {
-      const res = await axios.get(`http://localhost:3003/user/username/${pagesUserId}`)
-      console.log(res.data.data)
-      if (res.status === 200) {
-        setUsername(res.data.data)
+      try {
+        const res = await axios.get(`http://localhost:3003/user/username/${pagesUserId}`)
+        console.log(res.data.data)
+        if (res.status === 200) {
+          setUsername(res.data.data)
+        }
+      } catch (error){
+        console.error("Failed to fetch username:", error)
       }
     }
 
@@ -74,15 +57,17 @@ useEffect(() => {
   
           const base64Image = `data:${bannerData.contentType};base64,${bannerData.data}`;
           setBanner(base64Image);
-          //if(userId === pagesUserId){
+          if(userId === pagesUserId){
             localStorage.setItem("banner", base64Image);
-          //}
+          }
 
 
           if (bannerData && bannerData.data && bannerData.contentType) {
             const base64Image = `data:${bannerData.contentType};base64,${bannerData.data}`;
             setBanner(base64Image);
-            localStorage.setItem("banner", base64Image);
+            if(userId === pagesUserId){
+              localStorage.setItem("banner", base64Image);
+            }
          //   console.log(localStorage,"this is the storage!!1")
           } else {
             throw new Error("Invalid banner data");
@@ -115,15 +100,17 @@ useEffect(() => {
           const pictureData = await pictureRes.json();
           const base64Image = `data:${pictureData.contentType};base64,${pictureData.data}`;
           setProfilePic(base64Image);
-          //if(userId === pagesUserId){
+          if(userId === pagesUserId){
             localStorage.setItem("avatar", base64Image);
-          //}
+          }
 
 
           if (pictureData && pictureData.data && pictureData.contentType) {
             const base64Image = `data:${pictureData.contentType};base64,${pictureData.data}`;
             setProfilePic(base64Image);
-            localStorage.setItem("avatar", base64Image);
+            if(userId === pagesUserId){
+              localStorage.setItem("avatar", base64Image);
+            }
          //   console.log(localStorage,"this is the storage!!1")
           } else {
             throw new Error("Invalid avatar data");
@@ -153,10 +140,10 @@ useEffect(() => {
         const data = await response.json();
 
         setUserDisplays(data.data);
-        //if(userId === pagesUserId){
+        if(userId === pagesUserId){
           localStorage.setItem("displayboard", JSON.stringify(data.data))
           console.log(JSON.stringify(userDisplays))
-        //}
+        }
       } catch (error) {
         console.error("Error fetching displays:", error);
       }
@@ -275,35 +262,27 @@ function IsVisitor(){
         </div>
       </div>
     <div className="profile-details">
-        <div className="edit-button-container">
+        <div className="profile-summary">
                 <div className="profile-name">
                     <h1>{username}</h1>
-                  </div>
+                    <a>2</a><b> following </b><a> * 6 </a><b>followers</b>
+                </div>
             </div>
       {IsVisitor()}
+      </div>
         <div className="profile-displayboard-container">
-          {/*<div className="profile-displayboard">
-            <img src={userDisplays[0].thumbnail} height='100%' width='100%' style={{borderRadius: "10%",}}></img>
-          </div>
-          <div className="profile-displayboard">
-            <img src={userDisplays[1].thumbnail} height='100%' width='100%' style={{borderRadius: "10%",}}></img>
-          </div>
-          <div className="profile-displayboard">
-            <img src={userDisplays[2].thumbnail} height='100%' width='100%' style={{borderRadius: "10%",}}></img>
-          </div>*/}
           {userDisplays.length > 0 ? (
-                    userDisplays.map((display, index) => (
-                        <div className="profile-displayboard">
-                            <img src={display.thumbnail} height='100%' width='100%' style={{borderRadius: "10%",}}></img>
-                        </div>
-                    ))
-                    ) : (
-                        <div className="profile-displayboard"></div>
-                    )}
+            userDisplays.map((display, index) => (
+              <div className="profile-displayboard" key={display.boardID}>
+                <img src={display.thumbnail} height='100%' width='100%' style={{borderRadius: "10%",}}></img>
+              </div>
+            ))) : (
+              <div className="profile-displayboard"></div>
+            )}
         </div>
-    </div>
+    
     <div className="profile-content">
-  <h2>{username}'s Books</h2>
+  <h1>{username}'s Books</h1>
   <div className="profile-lists">
     {userBooks.length > 0 ? (
       userBooks.map((book, index) => (
@@ -328,7 +307,7 @@ function IsVisitor(){
     )}
   </div>
   
-  <h2>{username}'s Movies</h2>
+  <h1>{username}'s Movies</h1>
 <div className="profile-lists">
   {userMovies.length > 0 ? (
     userMovies.map((movie, index) => (
@@ -352,7 +331,7 @@ function IsVisitor(){
   )}
   </div>
 
-  <h2>{username}'s Games</h2>
+  <h1>{username}'s Games</h1>
 <div className="profile-lists">
   {userGames.length > 0 ? (
     userGames.map((game, index) => (

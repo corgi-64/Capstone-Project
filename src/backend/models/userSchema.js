@@ -73,7 +73,7 @@ const userSchema = new mongoose.Schema({
                 media: {type: String}, //type of media being stored
                 title: {type: String}, //item title
                 thumbnail: {type: String}, //item thumbnail
-                id: {}
+                id: {} //ID of item, any type since book id's are strings while movies and games are numbers
               }
             ],
             favorite_games: [

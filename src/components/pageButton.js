@@ -11,8 +11,56 @@ export default function PageButton(){
     const [userBooks, setUserBooks] = useState([]);
     const [userMovies, setUserMovies] = useState([]);
     const [userGames, setUserGames] = useState([]);
-    const [userProfilePic, setProfilePic] = useState(localStorage.getItem('avatar'));
-    const [username, setUsername] = useState(localStorage.getItem("username"));
+    const [userProfilePic, setProfilePic] = useState([]);
+    const [username, setUsername] = useState([]);
+    const pagesUserId = useParams().id
+
+    useEffect(() => {
+        async function grabUserName() {
+        const res = await axios.get(`http://localhost:3003/user/username/${pagesUserId}`)
+        console.log(res.data.data)
+        if (res.status === 200) {
+            setUsername(res.data.data)
+        }
+    }
+
+    grabUserName()
+    },[])
+
+    useEffect(() => {
+    async function fetchProfilePicture() {
+      try {
+        
+        const pictureRes = await fetch(`http://localhost:3003/user/profile-picture/${pagesUserId}`); // updates profile picture
+        //console.log(pictureRes)
+        if (pictureRes.ok) {
+          const pictureData = await pictureRes.json();
+          const base64Image = `data:${pictureData.contentType};base64,${pictureData.data}`;
+          setProfilePic(base64Image);
+
+
+          if (pictureData && pictureData.data && pictureData.contentType) {
+            const base64Image = `data:${pictureData.contentType};base64,${pictureData.data}`;
+            setProfilePic(base64Image);
+          } else {
+            throw new Error("Invalid avatar data");
+          }
+        } else {
+          throw new Error("Avatar not found");
+        }
+      } catch (error) {
+        
+        console.error("Failed to fetch avatar image:", error);
+        setProfilePic(avatar); // fallback to default
+      }
+    }
+  
+        if (username && pagesUserId) {
+            fetchProfilePicture();
+        } else {
+            setProfilePic(avatar); // fallback to default
+        }
+    }, [username, pagesUserId]);
 
     useEffect(() => {
       const fetchBooks = async () => {
@@ -106,24 +154,19 @@ export default function PageButton(){
         <div>
             {userBooks.length > 0 ? (
                 userBooks.map((book, index) => (
-                    <Link
-                        key={book.id || index}
-                        to={`/book/${book.id}`}
-                    >
-                        <div className="timeline-design">
-                            <div className="user-activity">
-                                <div className="user-activity-icon">
-                                    <img src={userProfilePic|| "https://avatars.githubusercontent.com/u/19550456"} height={50} width={50} style={{borderRadius: "50%",}}/>
-                                </div>
-                                <div className="user-activity-name">
-                                    <p>{username}</p>
-                                </div>
-                                <div className="user-activity-log">
-                                    <p>started reading <i>{book.title}</i></p>
-                                </div>
+                    <div className="timeline-design">
+                        <div className="user-activity">
+                            <div className="user-activity-icon">
+                                <img src={userProfilePic|| avatar} height={50} width={50} style={{borderRadius: "50%",}}/>
+                            </div>
+                            <div className="user-activity-name">
+                                <p>{username}</p>
+                            </div>
+                            <div className="user-activity-log">
+                                <p>started reading <i><Link key={book.id || index} to={`/book/${book.id}`} style={{color:"darkorchid"}}>{book.title}</Link></i></p>
                             </div>
                         </div>
-                    </Link>
+                    </div>
                 ))
             ) : <div>
                 <p></p>
@@ -131,24 +174,19 @@ export default function PageButton(){
                 }
             {userMovies.length > 0 ? (
                 userMovies.map((movie, index) => (
-                    <Link
-                        key={movie.id || index}
-                        to={`/movie/${movie.id}`}
-                    >
-                        <div className="timeline-design">
-                            <div className="user-activity">
-                                <div className="user-activity-icon">
-                                    <img src={userProfilePic|| avatar} height={50} width={50} style={{borderRadius: "50%",}}/>
-                                </div>
-                                <div className="user-activity-name">
-                                    <p>{username}</p>
-                                </div>
-                                <div className="user-activity-log">
-                                    <p>started watching <i>{movie.title}</i></p>
-                                </div>
+                    <div className="timeline-design">
+                        <div className="user-activity">
+                            <div className="user-activity-icon">
+                                <img src={userProfilePic|| avatar} height={50} width={50} style={{borderRadius: "50%",}}/>
+                            </div>
+                            <div className="user-activity-name">
+                                <p>{username}</p>
+                            </div>
+                            <div className="user-activity-log">
+                                <p>started watching <i><Link key={movie.id || index} to={`/movie/${movie.id}`} style={{color:"darkorchid"}}>{movie.title}</Link></i></p>
                             </div>
                         </div>
-                    </Link>
+                    </div>
                 ))
             ) : <div>
                 <p></p>
@@ -156,24 +194,19 @@ export default function PageButton(){
                 }
             {userGames.length > 0 ? (
                 userGames.map((game, index) => (
-                    <Link
-                        key={game.id || index}
-                        to={`/game/${game.id}`}
-                    >
-                        <div className="timeline-design">
-                            <div className="user-activity">
-                                <div className="user-activity-icon">
-                                    <img src={userProfilePic|| avatar} height={50} width={50} style={{borderRadius: "50%",}}/>
-                                </div>
-                                <div className="user-activity-name">
-                                    <p>{username}</p>
-                                </div>
-                                <div className="user-activity-log">
-                                    <p>started playing <i>{game.title}</i></p>
-                                </div>
+                    <div className="timeline-design">
+                        <div className="user-activity">
+                            <div className="user-activity-icon">
+                                <img src={userProfilePic|| avatar} height={50} width={50} style={{borderRadius: "50%",}}/>
+                            </div>
+                            <div className="user-activity-name">
+                                <p>{username}</p>
+                            </div>
+                            <div className="user-activity-log">
+                                <p>started playing <i><Link key={game.id || index} to={`/game/${game.id}`} style={{color:"darkorchid"}}>{game.title}</Link></i></p>
                             </div>
                         </div>
-                    </Link>
+                    </div>
                 ))
             ) : <div>
                 <p>No further activity</p>
